@@ -2,7 +2,10 @@ import './App.css';
 import AppBar from './components/AppBar';
 import RoomList from './components/RoomList'
 import CreateRoomDialog from './components/CreateRoomDialog'
+import SignUp from './components/SignUp'
+import SignIn from './components/SignIn'
 import { useState } from 'react';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
 function App() {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
@@ -19,16 +22,15 @@ function App() {
   const toggleRerenderRoomList = () => {
     setRerenderRoomList(curr => !curr);
   }
-  console.log("App re-render");
   return (
+    <Router>
     <div className="App">
-      <AppBar handleOpenCreateDialog={handleOpenCreateDialog}/>
-      <RoomList reRender={reRenderRoomList}/>
-      <CreateRoomDialog isOpen={openCreateDialog}
-        toggleRerenderRoomList={toggleRerenderRoomList}
-        handleClose={handleClose}
-      />
+      <Routes>
+        <Route path="/sign-up" element={<SignUp/>} />
+        <Route path="/sign-in" element={<SignIn/>}/>
+      </Routes>
     </div>
+    </Router>
   );
 }
 
