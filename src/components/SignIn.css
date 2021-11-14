@@ -47,3 +47,7 @@
     top: 6px;
     left: -37%;
 }
+
+.error-message {
+    color: rgb(233, 35, 35);
+}
