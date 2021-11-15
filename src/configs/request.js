@@ -1,3 +1,6 @@
+import handleError from "./handleError";
+
+
 export async function postData(url = '', data = {}) {
     const token = localStorage.getItem("token");
     // Default options are marked with *
@@ -13,19 +16,29 @@ export async function postData(url = '', data = {}) {
         referrerPolicy: 'no-referrer', 
         body: JSON.stringify(data)
     });
+    if(!response.ok) {
+        return handleError(response);
+    };
     return await response.json();
 }
 
 export async function getData(url = '') {
-    const token = localStorage.getItem("token");
-    // Default options are marked with *
-    const response = await fetch(url, {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-    });
-    return await response.json();
+    try {
+        const token = localStorage.getItem("token");
+        // Default options are marked with *
+        const response = await fetch(url, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        });
+        if(!response.ok) {
+            return handleError(response);
+        };
+        return await response.json();
+    } catch(err) {
+        console.log(err);
+    }
 }
 
 export async function authentication(type, data) {
