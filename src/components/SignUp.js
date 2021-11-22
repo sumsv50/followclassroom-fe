@@ -42,14 +42,14 @@ export default function SignUp() {
     try {
       const access_token = response.accessToken;
       setIsLoading(true);
-      const isSuccess = await authentication('google', {access_token});
-      if(isSuccess) {
-        navigate('/classes');
+      const isSuccess = await authentication('google', { access_token });
+      if (isSuccess) {
+        navigate('/home');
       } else {
         setErrorMessage('Try again!');
         setIsLoading(false);
       }
-    } catch(err) {
+    } catch (err) {
       console.log(err);
       setErrorMessage('Try again!');
       setIsLoading(false);
@@ -58,18 +58,18 @@ export default function SignUp() {
 
   const handleSubmit = async () => {
     const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    
-    if(!regexEmail.test(email)) {
+
+    if (!regexEmail.test(email)) {
       setErrorMessage('Email not valid!');
       return;
     }
 
-    if(password.length < 6) {
+    if (password.length < 6) {
       setErrorMessage('Password must have at least 6 characters')
       return;
     }
 
-    if(password !== confirmPassword) {
+    if (password !== confirmPassword) {
       setErrorMessage('Confirm password not match Password');
       return;
     }
@@ -80,7 +80,7 @@ export default function SignUp() {
       password,
       confirm_password: confirmPassword
     })
-    if(response?.isSuccess) {
+    if (response?.isSuccess) {
       navigate('/sign-in');
     } else {
       setErrorMessage(response?.message);
@@ -90,7 +90,7 @@ export default function SignUp() {
 
   return (
     <Grid container component="main">
-      {isLoading && <Loading/>}
+      {isLoading && <Loading />}
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -134,7 +134,7 @@ export default function SignUp() {
                     autoComplete="family-name"
                   />
                 </Grid> */}
-               
+
                 <Grid item xs={12}>
                   <TextField
                     required

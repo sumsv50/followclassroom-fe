@@ -15,7 +15,7 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import GoogleLogin from 'react-google-login';
 import './SignIn.css';
-import {authentication} from '../configs/request';
+import { authentication } from '../configs/request';
 import Loading from './Loading';
 
 
@@ -76,43 +76,43 @@ export default function SignInSide() {
     try {
       const access_token = response.accessToken;
       setIsLoading(true);
-      const isSuccess = await authentication('google', {access_token});
-      if(isSuccess) {
-        navigate('/classes');
+      const isSuccess = await authentication('google', { access_token });
+      if (isSuccess) {
+        navigate('/home');
       } else {
         setErrorMessage('Try again!');
         setIsLoading(false);
       }
-    } catch(err) {
+    } catch (err) {
       console.log(err);
       setErrorMessage('Try again!');
       setIsLoading(false);
     }
   }
 
-  const submitForm = async() => {
+  const submitForm = async () => {
     try {
       const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-      
-      if(!regexEmail.test(email)) {
+
+      if (!regexEmail.test(email)) {
         setErrorMessage('Email not valid!');
         return;
       }
 
-      if(password.length < 6) {
+      if (password.length < 6) {
         setErrorMessage('Password must have at least 6 characters')
         return;
       }
-      
+
       setIsLoading(true);
-      const isSuccess = await authentication('local', {email, password});
-      if(isSuccess) {
-        navigate('/classes');
+      const isSuccess = await authentication('local', { email, password });
+      if (isSuccess) {
+        navigate('/home');
       } else {
         setErrorMessage("Incorrect email or password!");
         setIsLoading(false);
       }
-    } catch(err) {
+    } catch (err) {
       console.log(err);
       setErrorMessage('Try again!');
       setIsLoading(false);
@@ -121,9 +121,9 @@ export default function SignInSide() {
 
 
   return (
-   
+
     <Grid container component="main" className={classes.root}>
-      {isLoading && <Loading/>}
+      {isLoading && <Loading />}
       <CssBaseline />
 
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>

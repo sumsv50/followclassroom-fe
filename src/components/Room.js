@@ -6,10 +6,10 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-export default function Room({name, section, urlBackground}) {
+export default function Room({ name, section, urlBackground }) {
   return (
-    <Card sx={{ maxWidth: 345}}
-        align="left"
+    <Card sx={{ maxWidth: 345 }}
+      align="left"
     >
       <CardMedia
         component="img"
@@ -17,7 +17,7 @@ export default function Room({name, section, urlBackground}) {
         image={urlBackground}
         alt="green iguana"
       />
-      <CardContent style={{height: 80}}>
+      <CardContent style={{ height: 80 }}>
         <Typography gutterBottom variant="h5" component="div">
           {name}
         </Typography>

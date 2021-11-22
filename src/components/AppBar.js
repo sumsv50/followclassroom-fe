@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -16,6 +16,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
+import FormDialog from './FormDialog';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -57,7 +58,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar({handleOpenCreateDialog}) {
+
+
+export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -79,6 +82,16 @@ export default function PrimarySearchAppBar({handleOpenCreateDialog}) {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleOpen = () => {
+    setOpenDialog(true);
+  };
+
+  const handleClose = () => {
+    setOpenDialog(false);
   };
 
   const menuId = 'primary-search-account-menu';
@@ -120,13 +133,14 @@ export default function PrimarySearchAppBar({handleOpenCreateDialog}) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={handleOpenCreateDialog}>
+      {/* <MenuItem onClick={handleOpenCreateDialog}> */}
+      <MenuItem onClick={handleOpen}>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge color="error">
-            <AddCircleIcon/>
+            <AddCircleIcon />
           </Badge>
         </IconButton>
-        <p>Messages</p>
+        <p>Tạo lớp học</p>
       </MenuItem>
       <MenuItem>
         <IconButton
@@ -138,7 +152,7 @@ export default function PrimarySearchAppBar({handleOpenCreateDialog}) {
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
+        <p>Thông báo</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -158,6 +172,8 @@ export default function PrimarySearchAppBar({handleOpenCreateDialog}) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
+        <FormDialog open={openDialog} handleClose={handleClose} toggleRerenderRoomList={toggleRerenderRoomList} />
+
         <Toolbar>
           <IconButton
             size="large"
@@ -187,7 +203,7 @@ export default function PrimarySearchAppBar({handleOpenCreateDialog}) {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={handleOpenCreateDialog}>
+            <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={handleOpen}>
               <Badge color="error">
                 <AddCircleIcon />
               </Badge>

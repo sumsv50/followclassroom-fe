@@ -13,10 +13,10 @@ export async function postData(url = '', data = {}) {
             'Authorization': `Bearer ${token}`
         },
         redirect: 'follow',
-        referrerPolicy: 'no-referrer', 
+        referrerPolicy: 'no-referrer',
         body: JSON.stringify(data)
     });
-    if(!response.ok) {
+    if (!response.ok) {
         return handleError(response);
     };
     return await response.json();
@@ -32,11 +32,13 @@ export async function getData(url = '') {
                 'Authorization': `Bearer ${token}`
             },
         });
-        if(!response.ok) {
+        if (!response.ok) {
             return handleError(response);
         };
+        // const res = await response.json();
+        // console.log(res);
         return await response.json();
-    } catch(err) {
+    } catch (err) {
         console.log(err);
     }
 }
@@ -52,12 +54,12 @@ export async function authentication(type, data) {
         const response = await postData(`${process.env.REACT_APP_BASE_URL}/api/${route}`, data);
         const token = response?.authorization;
 
-        if(!response?.isSuccess || !token) {
+        if (!response?.isSuccess || !token) {
             return false;
         }
         localStorage.setItem("token", token);
         return true;
-    } catch(err) {
+    } catch (err) {
         console.log(err);
         return false;
     }
