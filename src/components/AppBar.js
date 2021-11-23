@@ -94,6 +94,11 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
     setOpenDialog(false);
   };
 
+  const handleLogOut = () => {
+    localStorage.removeItem('token');
+    window.location.assign("/sign-in");
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -113,6 +118,7 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleLogOut}>Log out</MenuItem>
     </Menu>
   );
 
