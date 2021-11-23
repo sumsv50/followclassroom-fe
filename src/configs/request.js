@@ -64,3 +64,35 @@ export async function authentication(type, data) {
         return false;
     }
 }
+
+export async function signByLink(type, data, id) {
+    try {
+        const routeList = {
+            'google': 'auth/google',
+            'local': 'sign-in',
+            'default': 'sign-in'
+        }
+        const route = routeList[type] ?? routeList['default'];
+        const response = await postData(`${process.env.REACT_APP_BASE_URL}/classlink/${id}/${route}`, data);
+        const token = response?.authorization;
+
+        if(!response?.isSuccess || !token) {
+            return false;
+        }
+        localStorage.setItem("token", token);
+        return true;
+    } catch(err) {
+        console.log(err);
+        return false;
+    }
+}
+
+export async function updateUser(data) {
+    try {
+        const response = await postData(`${process.env.REACT_APP_BASE_URL}/api/user-update`, data);
+        return TextTrackCueList
+    } catch (err) {
+        console.log(err);
+        return false
+    }
+}
