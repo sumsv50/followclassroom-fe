@@ -17,6 +17,7 @@ import GoogleLogin from 'react-google-login';
 import './SignIn.css';
 import { authentication } from '../configs/request';
 import Loading from './Loading';
+require('dotenv').config();
 
 
 function Copyright() {

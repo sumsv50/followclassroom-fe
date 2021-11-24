@@ -4,8 +4,9 @@ import SignIn from './components/SignIn';
 import Home from './components/Home';
 import SignUpByLink from './components/SignUpByClassLink';
 import SignInByLink from './components/SignInByClassLink';
-import Checkout from './components/CheckOut/CheckOut';
-import Success from './components/CheckOut/Successform';
+import Checkout from './components/UserDetail/CheckOut';
+import Success from './components/UserDetail/Successform';
+import ClassLink from './components/ClassDetail/GetClassLink';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path= "/classlink/sign-in/:id" element={<SignInByLink/>}/>
           <Route path= "/user" element={<Checkout/>} />
           <Route path= "/user/success" element={<Success/>} />
+          <Route path= "/classes/:id/getlink" element={<ClassLink/>} />
         </Routes>
       </div>
     </Router>

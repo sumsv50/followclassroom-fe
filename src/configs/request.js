@@ -90,9 +90,19 @@ export async function signByLink(type, data, id) {
 export async function updateUser(data) {
     try {
         const response = await postData(`${process.env.REACT_APP_BASE_URL}/api/user-update`, data);
-        return TextTrackCueList
+        return response?.isSuccess ? response?.isSuccess: false;
     } catch (err) {
         console.log(err);
-        return false
+        return false;
+    }
+}
+
+export async function inviteByEmail(class_id, email, role) {
+    try {
+        const response = await postData(`${process.env.REACT_APP_BASE_URL}/email`, {class_id, email, role});
+        return response;
+    } catch (err) {
+        console.log(err);
+        return null;
     }
 }

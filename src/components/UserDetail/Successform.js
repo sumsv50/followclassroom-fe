@@ -1,8 +1,7 @@
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
+import AppBar from '../AppBar';
 import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
 import Paper from '@mui/material/Paper';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -33,6 +32,11 @@ const theme = createTheme();
 export default function Success() {
   const [activeStep, setActiveStep] = React.useState(3);
   const navigate = useNavigate();
+  const [reRenderRoomList, setRerenderRoomList] = React.useState(false);
+
+  const toggleRerenderRoomList = () => {
+      setRerenderRoomList(curr => !curr);
+  }
 
   const handleGoHome = () => {
     navigate('/home');
@@ -41,21 +45,7 @@ export default function Success() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppBar
-        position="absolute"
-        color="default"
-        elevation={0}
-        sx={{
-          position: 'relative',
-          borderBottom: (t) => `1px solid ${t.palette.divider}`,
-        }}
-      >
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            ClassRoom
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <AppBar toggleRerenderRoomList={toggleRerenderRoomList} />
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
           <Typography component="h1" variant="h4" align="center">

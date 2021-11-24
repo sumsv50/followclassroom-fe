@@ -101,7 +101,7 @@ export default function EditForm({reRender}) {
               label="Email Address"
               name="email"
               autoComplete="email"
-              value = {userDetail?.authorization?.email}
+              value={email}
               onChange={
                 (event) => {
                   setErrorMessage('');
@@ -122,7 +122,7 @@ export default function EditForm({reRender}) {
               label="Student ID"
               name="id"
               autoComplete="id"
-              value = {userDetail?.authorization?.student_id}
+              value = {student_id}
               onChange={
                 (event) => {
                   setErrorMessage('');
@@ -143,7 +143,7 @@ export default function EditForm({reRender}) {
               label="Google Account"
               name="gg_account"
               autoComplete="gg_account"
-              value = {userDetail?.authorization?.gg_account}
+              value = {gg_account}
               onChange={
                 (event) => {
                   setErrorMessage('');
@@ -164,7 +164,7 @@ export default function EditForm({reRender}) {
               label="Facebook Account"
               name="fb_account"
               autoComplete="fb_account"
-              value = {userDetail?.authorization?.fb_account}
+              value = {fb_account}
               onChange={
                 (event) => {
                   setErrorMessage('');

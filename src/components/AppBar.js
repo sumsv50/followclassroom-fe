@@ -15,6 +15,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { useNavigate } from 'react-router-dom';
 
 import FormDialog from './FormDialog';
 
@@ -99,6 +100,11 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
     window.location.assign("/sign-in");
   }
 
+  const navigate = useNavigate();
+  const handleUser = () => {
+    navigate('/user');
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -116,8 +122,8 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleUser}>Profile</MenuItem>
+      <MenuItem onClick={handleUser}>My account</MenuItem>
       <MenuItem onClick={handleLogOut}>Log out</MenuItem>
     </Menu>
   );
