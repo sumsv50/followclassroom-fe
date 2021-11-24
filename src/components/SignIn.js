@@ -236,7 +236,7 @@ export default function SignInSide() {
               )}
               buttonText="Login"
               onSuccess={googleSuccess}
-              onFailure={googleSuccess}
+              // onFailure={googleSuccess}
               cookiePolicy={'single_host_origin'}
             />
             {/* <Box

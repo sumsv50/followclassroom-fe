@@ -238,7 +238,7 @@ export default function SignUp() {
                 )}
                 buttonText="Login"
                 onSuccess={googleSuccess}
-                onFailure={googleSuccess}
+                // onFailure={googleSuccess}
                 cookiePolicy={'single_host_origin'}
               />
               {/* <Box
