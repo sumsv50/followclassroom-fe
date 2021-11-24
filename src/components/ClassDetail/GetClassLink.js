@@ -103,7 +103,7 @@ export default function ClassLink({ reRender }) {
   }
 
   const handleGoHome = () => {
-    navigate('/home');
+    navigate('/');
   };
 
   return (

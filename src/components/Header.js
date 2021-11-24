@@ -11,7 +11,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function PrimarySearchAppBar({ val, classId }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -128,14 +128,17 @@ export default function PrimarySearchAppBar({ val, classId }) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
-            FOLL-CLASSROOM
-          </Typography>
+
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+            >
+              FOLL-CLASSROOM
+            </Typography>
+          </Link>
 
           <Box sx={{ display: 'flex', flexGrow: 5, justifyContent: 'center' }}>
             <Tabs
