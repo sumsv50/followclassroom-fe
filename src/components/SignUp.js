@@ -44,7 +44,7 @@ export default function SignUp() {
       setIsLoading(true);
       const isSuccess = await authentication('google', { access_token });
       if (isSuccess) {
-        navigate('/home');
+        navigate('/');
       } else {
         setErrorMessage('Try again!');
         setIsLoading(false);

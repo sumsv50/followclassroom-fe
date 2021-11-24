@@ -79,7 +79,7 @@ export default function SignInSide() {
       setIsLoading(true);
       const isSuccess = await authentication('google', { access_token });
       if (isSuccess) {
-        navigate('/home');
+        navigate('/');
       } else {
         setErrorMessage('Try again!');
         setIsLoading(false);
@@ -108,7 +108,7 @@ export default function SignInSide() {
       setIsLoading(true);
       const isSuccess = await authentication('local', { email, password });
       if (isSuccess) {
-        navigate('/home');
+        navigate('/');
       } else {
         setErrorMessage("Incorrect email or password!");
         setIsLoading(false);
