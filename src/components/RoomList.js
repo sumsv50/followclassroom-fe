@@ -20,7 +20,7 @@ export default function ResponsiveGrid({ reRender }) {
 
   React.useEffect(async () => {
     await getRoomList();
-  }, []);
+  }, [reRender]);
 
   return (
     <Box sx={{ flexGrow: 1 }}
