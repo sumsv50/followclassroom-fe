@@ -148,7 +148,6 @@ export default function PrimarySearchAppBar({ val, classId }) {
                 },
               }
               }
-              initialSelectedIndex={val}
               aria-label="lab API tabs example">
               <Tab onClick={navigateToInfoTab}
                 label={<span style={{ color: 'white' }}>Info</span>}
