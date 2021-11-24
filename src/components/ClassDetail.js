@@ -62,7 +62,7 @@ function ClassDetail() {
                                 sx={{
                                     width: 151
                                 }}
-                                image="../class.jpg"
+                                image="https://res.cloudinary.com/dzhnjuvzt/image/upload/v1637768355/class_ayj0mh.jpg"
                                 alt="Class_cover"
                             />
                         </Box>

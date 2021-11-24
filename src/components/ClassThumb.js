@@ -16,7 +16,7 @@ export default function ClassThumb({ id, name, description }) {
           component="img"
           alt="green iguana"
           height="140"
-          image="class.jpg"
+          image="https://res.cloudinary.com/dzhnjuvzt/image/upload/v1637768355/class_ayj0mh.jpg"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
