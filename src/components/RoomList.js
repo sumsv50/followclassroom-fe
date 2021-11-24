@@ -12,16 +12,14 @@ export default function ResponsiveGrid({ reRender }) {
   console.log("RoomList re-render");
   const getRoomList = async () => {
     setIsLoading(true);
-    // const data = await getData(`${process.env.REACT_APP_BASE_URL}`);
-    const data = await getData('http://localhost:8080/classes');
-    // const data = await getData('https://classroom2021-backend.herokuapp.com/classes');
+    const data = await getData(`${process.env.REACT_APP_BASE_URL}/classes`);
     setIsLoading(false);
     setRoomList(Array.isArray(data) ? data : []);
-    // setRoomList(data);
+    console.log(data);
   }
 
-  React.useEffect(() => {
-    (async () => await getRoomList())();
+  React.useEffect(async () => {
+    await getRoomList();
   }, [reRender]);
 
   return (
@@ -45,7 +43,7 @@ export default function ResponsiveGrid({ reRender }) {
           >
             {roomList.map((room, index) => (
               <Grid item xs={2} sm={3} md={3} key={index}>
-                <ClassThumb name={room.name} description={room.description}>
+                <ClassThumb name={room.Class.name} description={room.Class.description}>
                   xs=2
                 </ClassThumb>
               </Grid>
