@@ -9,6 +9,7 @@ export default function ClassThumb({ id, name, description }) {
   return (
     <Link to={`/classes/${id}`} style={{ textDecoration: 'none' }}>
       <Card sx={{
+        height: 280,
         maxWidth: 345
       }}>
         <CardMedia

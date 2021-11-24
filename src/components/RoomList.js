@@ -9,7 +9,7 @@ export default function ResponsiveGrid({ reRender }) {
   const [roomList, setRoomList] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  console.log("RoomList re-render");
+  // console.log("RoomList re-render");
   const getRoomList = async () => {
     setIsLoading(true);
     const data = await getData(`${process.env.REACT_APP_BASE_URL}/classes`);
