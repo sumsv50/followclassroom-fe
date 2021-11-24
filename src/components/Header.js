@@ -1,28 +1,23 @@
-import React, { useState } from 'react';
-import { styled, alpha } from '@mui/material/styles';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import { useNavigate } from 'react-router-dom';
 
-
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar({ val, classId }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
+  console.log(val);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -43,21 +38,27 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const [openDialog, setOpenDialog] = useState(false);
+  const navigate = useNavigate();
+  const handleUser = () => {
+    navigate('/user');
+  }
 
-  const handleOpen = () => {
-    setOpenDialog(true);
-  };
+  const navigateToInfoTab = () => {
+    navigate(`/classes/${classId}`);
+  }
 
-  const handleClose = () => {
-    setOpenDialog(false);
-  };
+  const navigateToMemberTab = () => {
+    navigate(`/classes/${classId}/userclass`);
+  }
 
-  const [value, setValue] = React.useState(0);
+  const navigateToInviteTab = () => {
+    navigate(`/classes/${classId}/getlink`);
+  }
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const handleLogOut = () => {
+    localStorage.removeItem('token');
+    window.location.assign("/sign-in");
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -76,8 +77,8 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleUser}>My Profile</MenuItem>
+      <MenuItem onClick={handleLogOut}>Log out</MenuItem>
     </Menu>
   );
 
@@ -98,15 +99,6 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {/* <MenuItem onClick={handleOpenCreateDialog}> */}
-      <MenuItem onClick={handleOpen}>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge color="error">
-            <AddCircleIcon />
-          </Badge>
-        </IconButton>
-        <p>Tạo lớp học</p>
-      </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -123,7 +115,8 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ display: 'flex', flexGrow: 1 }}>
+      {/* <BrowserRouter> */}
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -143,18 +136,30 @@ export default function PrimarySearchAppBar() {
           >
             FOLL-CLASSROOM
           </Typography>
-          <Tabs textColor="black" value={value} onChange={handleChange} centered>
-            <Tab label="Thông tin" />
-            <Tab label="Mọi người" />
-          </Tabs>
+
+          <Box sx={{ display: 'flex', flexGrow: 5, justifyContent: 'center' }}>
+            <Tabs
+              TabIndicatorProps={{
+                sx: {
+                  backgroundColor: 'black',
+                },
+              }
+              }
+              initialSelectedIndex={val}
+              aria-label="lab API tabs example">
+              <Tab onClick={navigateToInfoTab}
+                label={<span style={{ color: 'white' }}>Info</span>}
+              />
+              <Tab onClick={navigateToMemberTab}
+                label={<span style={{ color: 'white' }}>Member</span>}
+              />
+              <Tab onClick={navigateToInviteTab}
+                label={<span style={{ color: 'white' }}>Invite</span>}
+              />
+            </Tabs>
+          </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={handleOpen}>
-              <Badge color="error">
-                <AddCircleIcon />
-              </Badge>
-            </IconButton>
-
             <IconButton
               size="large"
               edge="end"
@@ -181,6 +186,10 @@ export default function PrimarySearchAppBar() {
           </Box>
         </Toolbar>
       </AppBar>
+      {/* <Routes>
+          <Route path="/class" />
+        </Routes>
+      </BrowserRouter> */}
       {renderMobileMenu}
       {renderMenu}
     </Box>

@@ -2,8 +2,8 @@ import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import AppBar from '../AppBar';
 import Paper from '@mui/material/Paper';
+import Header from '../Header';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -17,8 +17,8 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useState, useEffect} from 'react';
-import {inviteByEmail} from '../../configs/request';
+import { useState, useEffect } from 'react';
+import { inviteByEmail } from '../../configs/request';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -37,9 +37,9 @@ function Copyright() {
   );
 }
 
-export default function ClassLink({reRender}) {
+export default function ClassLink({ reRender }) {
   const theme = createTheme();
-  const [reRenderRoomList, setRerenderRoomList] = useState(false);
+  // const [reRenderRoomList, setRerenderRoomList] = useState(false);
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [student_link, setStudentLink] = useState('');
@@ -59,25 +59,26 @@ export default function ClassLink({reRender}) {
     setTeacherLink(`${process.env.REACT_APP__CALLBACK_URL}/classlink/sign-in/${detail?.teacher_link}`);
   };
 
-  useEffect(() => { getclassDetail(); }, [reRender]);
+  useEffect(() => { getclassDetail(); }, []);
+  // useEffect(() => { getclassDetail(); }, [reRender]);
 
-  const submitForm = async() => {
+  const submitForm = async () => {
     try {
       const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
-      if(!regexEmail.test(email)) {
+      if (!regexEmail.test(email)) {
         setErrorMessage('Email not valid!');
         return;
       }
 
       let role = 'student';
       console.log(isTeacher);
-      if(isTeacher) { role = 'teacher'; }
-      
+      if (isTeacher) { role = 'teacher'; }
+
       setIsLoading(true);
       const issuccess = await inviteByEmail(params.id, email, role);
-      
-      if(issuccess) {
+
+      if (issuccess) {
         setOpen(true);
         setEmail('');
         setIsTeacher(false);
@@ -86,7 +87,7 @@ export default function ClassLink({reRender}) {
         setErrorMessage(issuccess?.message);
         setIsLoading(false);
       }
-    } catch(err) {
+    } catch (err) {
       console.log(err);
       setErrorMessage('Try again!');
       setIsLoading(false);
@@ -101,10 +102,6 @@ export default function ClassLink({reRender}) {
     setOpen(false);
   }
 
-  const toggleRerenderRoomList = () => {
-    setRerenderRoomList(curr => !curr);
-  };
-
   const handleGoHome = () => {
     navigate('/home');
   };
@@ -112,120 +109,120 @@ export default function ClassLink({reRender}) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppBar toggleRerenderRoomList={toggleRerenderRoomList} />
+      <Header val={3} classId={params.id} />
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
 
         <Paper variant="outlined" sx={{ my: { xs: 12, md: 6 }, p: { xs: 2, md: 3 } }}>
-            <Typography component="h1" variant="h5" align="center">
-                Class Link Detail
-            </Typography>
+          <Typography component="h1" variant="h5" align="center">
+            Class Link Detail
+          </Typography>
 
-            <Typography variant="h6" gutterBottom>
-              <br></br>
-            </Typography>
+          <Typography variant="h6" gutterBottom>
+            <br></br>
+          </Typography>
 
-            <React.Fragment>
-                { isLoading ?
-                    <Box sx={{ margin: '300px', marginLeft: '250px'}}> 
-                     <CircularIndeterminate/>
-                    </Box> : (
-                      <React.Fragment>
-                        <Grid container spacing={3}>
-                          <Grid item xs={12} >
-                            <TextField
-                              id="student_link"
-                              label="Student Invite Link"
-                              defaultValue= {student_link}
-                              value= {student_link}
-                              InputProps={{
-                                readOnly: true,
-                              }}
-                              fullWidth
-                              autoComplete="address-line2"
-                              variant="standard"
-                            />
-                          </Grid>
-        
-                          <Grid item xs={12} >
-                            <TextField
-                              id="teacher_link"
-                              label="Teacher Invite Link"
-                              defaultValue= {teacher_link}
-                              value= {teacher_link}
-                              InputProps={{
-                                readOnly: true,
-                              }}
-                              fullWidth
-                              autoComplete="shipping address-line2"
-                              variant="standard"
-                            />
-                          </Grid>
+          <React.Fragment>
+            {isLoading ?
+              <Box sx={{ margin: '300px', marginLeft: '250px' }}>
+                <CircularIndeterminate />
+              </Box> : (
+                <React.Fragment>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} >
+                      <TextField
+                        id="student_link"
+                        label="Student Invite Link"
+                        defaultValue={student_link}
+                        value={student_link}
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        fullWidth
+                        autoComplete="address-line2"
+                        variant="standard"
+                      />
+                    </Grid>
 
-                        </Grid>
+                    <Grid item xs={12} >
+                      <TextField
+                        id="teacher_link"
+                        label="Teacher Invite Link"
+                        defaultValue={teacher_link}
+                        value={teacher_link}
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        fullWidth
+                        autoComplete="shipping address-line2"
+                        variant="standard"
+                      />
+                    </Grid>
 
-                        <Typography variant="h6" gutterBottom>
-                          <br></br>
-                        </Typography>
+                  </Grid>
 
-                        <Typography variant="h5" gutterBottom>
-                          Invite By Email
-                        </Typography>
-                        <Typography className="error-message">
-                          {errorMessage}
-                        </Typography>
-                        <Grid container spacing={3}>
-                          <Grid item xs={9} md={9}>
-                            <TextField
-                              variant="outlined"
-                              margin="normal"
-                              required
-                              fullWidth
-                              id="email"
-                              label="Email Address"
-                              name="email"
-                              autoComplete="email"
-                              value={email}
-                              onChange={
-                                (event) => {
-                                  setErrorMessage('');
-                                  setEmail(event.target.value.trim());
-                                }
-                              }
-                              autoFocus
-                            />
-                          </Grid>
+                  <Typography variant="h6" gutterBottom>
+                    <br></br>
+                  </Typography>
 
-                          <Button variant="contained" color="primary" onClick={submitForm} sx={{ mt: 6, mb: 2, ml: 2 }}>
-                            Send
-                          </Button>
+                  <Typography variant="h5" gutterBottom>
+                    Invite By Email
+                  </Typography>
+                  <Typography className="error-message">
+                    {errorMessage}
+                  </Typography>
+                  <Grid container spacing={3}>
+                    <Grid item xs={9} md={9}>
+                      <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                        value={email}
+                        onChange={
+                          (event) => {
+                            setErrorMessage('');
+                            setEmail(event.target.value.trim());
+                          }
+                        }
+                        autoFocus
+                      />
+                    </Grid>
 
-                          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                              This is a success message!
-                            </Alert>
-                          </Snackbar>
+                    <Button variant="contained" color="primary" onClick={submitForm} sx={{ mt: 6, mb: 2, ml: 2 }}>
+                      Send
+                    </Button>
 
-                          <Grid item xs={6}>
-                            <FormControlLabel
-                              control={<Checkbox color="secondary" name="saveCard" align="left" value="yes" checked={isTeacher} />}
-                              label="Send to invite teacher"
-                              onChange={(event) => {setIsTeacher(event.target.checked);}}
-                              autoFocus
-                            />
-                          </Grid>
-                        </Grid>
-                      </React.Fragment>
-                    )
-                }   
-            </React.Fragment>
+                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                      <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                        This is a success message!
+                      </Alert>
+                    </Snackbar>
 
-            <React.Fragment>
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Button onClick={handleGoHome} sx={{ mt: 3, ml: 1 }}>
-                    Go Back
-                  </Button>
-                </Box>
-            </React.Fragment>
+                    <Grid item xs={6}>
+                      <FormControlLabel
+                        control={<Checkbox color="secondary" name="saveCard" align="left" value="yes" checked={isTeacher} />}
+                        label="Send to invite teacher"
+                        onChange={(event) => { setIsTeacher(event.target.checked); }}
+                        autoFocus
+                      />
+                    </Grid>
+                  </Grid>
+                </React.Fragment>
+              )
+            }
+          </React.Fragment>
+
+          <React.Fragment>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Button onClick={handleGoHome} sx={{ mt: 3, ml: 1 }}>
+                Go Back
+              </Button>
+            </Box>
+          </React.Fragment>
         </Paper>
         <Copyright />
       </Container>

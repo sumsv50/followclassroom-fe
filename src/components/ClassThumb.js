@@ -5,9 +5,9 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 
-export default function ClassThumb({ name, description }) {
+export default function ClassThumb({ id, name, description }) {
   return (
-    <Link to='/class' style={{ textDecoration: 'none' }}>
+    <Link to={`/classes/${id}`} style={{ textDecoration: 'none' }}>
       <Card sx={{
         maxWidth: 345
       }}>

@@ -13,7 +13,6 @@ function Home() {
     return (
         <>
             <AppBar toggleRerenderRoomList={toggleRerenderRoomList} />
-            {/* <CreateRoomDialog handleClose={handleClose} isOpen={openCreateDialog} toggleRerenderRoomList={toggleRerenderRoomList} /> */}
             <RoomList reRender={reRenderRoomList} />
         </>
     );

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -10,7 +9,6 @@ import { getData } from '../configs/request';
 
 
 export default function MediaControlCard() {
-    const theme = useTheme();
     const commonStyles = {
         bgcolor: 'background.paper',
         m: 1,
@@ -31,12 +29,6 @@ export default function MediaControlCard() {
     React.useEffect(() => { getInformation(); }, []);
 
     return (
-        // <Box sx={{ maxWidth: '100%' }}
-        //     style={{
-        //         display: 'flex',
-        //         justifyContent: 'center',
-        //     }}
-        // >
         <>
             {
                 isLoading ?
@@ -44,7 +36,10 @@ export default function MediaControlCard() {
                     } >
                         <CircularIndeterminate />
                     </Box > :
-                    <Box sx={{ ...commonStyles, borderRadius: 2, borderColor: "grey.500", display: 'flex', justifyContent: 'space-between' }}>
+                    <Box sx={{
+                        ...commonStyles,
+                        borderRadius: 2, borderColor: "grey.500", display: 'flex', justifyContent: 'space-between'
+                    }}>
                         <CardContent>
                             <Typography component="div" variant="h5">
                                 {info.name}
@@ -65,6 +60,5 @@ export default function MediaControlCard() {
                     </Box>
             }
         </>
-        // </Box>
     );
 }

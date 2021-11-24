@@ -15,12 +15,12 @@ export default function ResponsiveGrid({ reRender }) {
     const data = await getData(`${process.env.REACT_APP_BASE_URL}/classes`);
     setIsLoading(false);
     setRoomList(Array.isArray(data) ? data : []);
-    console.log(data);
+    // console.log(data);
   }
 
   React.useEffect(async () => {
     await getRoomList();
-  }, [reRender]);
+  }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}
@@ -43,7 +43,7 @@ export default function ResponsiveGrid({ reRender }) {
           >
             {roomList.map((room, index) => (
               <Grid item xs={2} sm={3} md={3} key={index}>
-                <ClassThumb name={room.Class.name} description={room.Class.description}>
+                <ClassThumb id={room.Class.id} name={room.Class.name} description={room.Class.description}>
                   xs=2
                 </ClassThumb>
               </Grid>
