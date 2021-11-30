@@ -8,6 +8,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import CircularIndeterminate from './Progress'
 import { useParams } from 'react-router-dom';
+import GradeList from './GradeList'
 
 import { getData } from '../configs/request';
 function ClassDetail() {
@@ -44,28 +45,35 @@ function ClassDetail() {
                         } >
                             <CircularIndeterminate />
                         </Box > :
-                        <Box sx={{
-                            ...commonStyles,
-                            borderRadius: 2, borderColor: "grey.500", display: 'flex', justifyContent: 'space-between'
-                        }}>
-                            <CardContent>
-                                <Typography component="div" variant="h5">
-                                    {info.name}
-                                </Typography>
-                                <Typography variant="subtitle1" color="text.secondary" component="div">
-                                    {info.description}
-                                </Typography>
-                            </CardContent>
+                            <div>
+                                <Box sx={{
+                                    ...commonStyles,
+                                    borderRadius: 2, borderColor: "grey.500", display: 'flex', justifyContent: 'space-between'
+                                }}>
+                                    <CardContent>
+                                        <Typography component="div" variant="h5">
+                                            {info.name}
+                                        </Typography>
+                                        <Typography variant="subtitle1" color="text.secondary" component="div">
+                                            {info.description}
+                                        </Typography>
+                                    </CardContent>
 
-                            <CardMedia
-                                component="img"
-                                sx={{
-                                    width: 151
-                                }}
-                                image="https://res.cloudinary.com/dzhnjuvzt/image/upload/v1637768355/class_ayj0mh.jpg"
-                                alt="Class_cover"
-                            />
-                        </Box>
+                                    <CardMedia
+                                        component="img"
+                                        sx={{
+                                            width: 151
+                                        }}
+                                        image="../class.jpg"
+                                        alt="Class_cover"
+                                    />
+                                </Box>
+
+                                <GradeList></GradeList>
+                            </div>
+                        
+
+                        
                 }
             </Container>
         </>
