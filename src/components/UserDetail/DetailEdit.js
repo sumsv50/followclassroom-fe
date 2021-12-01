@@ -6,8 +6,6 @@ import { Button } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import CircularIndeterminate from '../Progress';
 import { getData } from '../../configs/request';
-// import FormControlLabel from '@mui/material/FormControlLabel';
-// import Checkbox from '@mui/material/Checkbox';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { updateUser} from '../../configs/request';

@@ -9,6 +9,8 @@ import SignInByLink from './components/SignInByClassLink';
 import Checkout from './components/UserDetail/CheckOut';
 import Success from './components/UserDetail/Successform';
 import ClassLink from './components/ClassDetail/GetClassLink';
+import CreateGrade from './components/EditGrade/CreateGrade';
+import EditGrade from './components/EditGrade/EditGrade';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
           <Route path="/user" element={<Checkout />} />
           <Route path="/user/success" element={<Success />} />
           <Route path="/classes/:id/getlink" element={<ClassLink />} />
+          <Route path="/classes/:id/create-grade" element={<CreateGrade />} />
+          <Route path="/classes/:class_id/:id/edit" element={<EditGrade/>} />
         </Routes>
       </div>
     </Router>

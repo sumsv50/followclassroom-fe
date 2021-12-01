@@ -40,7 +40,6 @@ export default function ResponsiveGrid({ grade_order, onDragAndDrop }) {
     console.log(tmpArr);
   };
 
-
   return (
     <Box sx={{ flexGrow: 1 }}
       style={{

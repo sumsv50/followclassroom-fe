@@ -1,28 +1,34 @@
 import * as React from 'react';
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import CardContent from '@mui/material/CardContent';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import IconButton from '@mui/material/IconButton';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { getGrade } from '../configs/request';
+import { useNavigate} from 'react-router-dom';
 
 export default function GradeThumb({ id }) {
   const params = useParams();
-  // console.log(id);
-  // console.log(params);
   const [grade, setGrade] = React.useState([]);
+  const navigate = useNavigate();
 
-  React.useEffect(() => {
+  const handleProfileMenuOpen = () => {
+    navigate(`/classes/${params.id}/${id}/edit`);
+  };
+
+  React.useEffect( () => {
     async function fetchData() {
       const result = await getGrade(params.id, id);
-      // console.log('result ', result);
       setGrade(result);
     }
     fetchData();
   }, []);
 
   return (
-    <Link to={`/classes/${params.id}`} style={{ textDecoration: 'none' }}>
       <Card sx={{
         height: 70,
         maxWidth: 700
@@ -32,12 +38,36 @@ export default function GradeThumb({ id }) {
             <Grid item xs={1} alignItems="left">
               {grade?.name}
             </Grid>
-            <Grid item xs={3} alignItems="right">
+
+            <Grid item xs ={2} alignItems="right">
               {grade?.weight}
+            </Grid>
+
+            <Grid item xs ={1} alignItems="right">
+              <IconButton
+                size="small"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls='primary-search-account-menu'
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <ModeEditOutlineIcon />
+              </IconButton>
+
+              <IconButton
+                size="small"
+                edge="end"
+                aria-label="show 4 new mails"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <DeleteForeverIcon />
+              </IconButton>
             </Grid>
           </Grid>
         </CardContent>
       </Card >
-    </Link>
   );
 }
