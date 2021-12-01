@@ -1,37 +1,47 @@
 import * as React from 'react';
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
+import { getData } from '../configs/request';
+import { useParams } from 'react-router-dom';
+import { getGrade } from '../configs/request';
 
-export default function GradeThumb({ id, name, weight }) {
+export default function GradeThumb({ id }) {
+  const params = useParams();
+  console.log(id);
+  console.log(params);
+  const [grade, setGrade] = React.useState([]);
+
+  React.useEffect( () => {
+    async function fetchData() {
+      const result = await getGrade(params.id, id);
+      console.log('result ',result);
+      setGrade(result);
+    }
+    fetchData();
+  }, []);
+
   return (
-    <Link to={`/classes/${id}`} style={{ textDecoration: 'none' }}>
+    <Link to={`/classes/${params.id}`} style={{ textDecoration: 'none' }}>
       <Card sx={{
         height: 70,
         maxWidth: 700
       }}>
         <CardContent>
-          {/* <Typography gutterBottom variant="h5">
-            {name}
-          </Typography>
-          <Typography className="description" variant="body2" color="text.secondary" component="span">
-            {weight}
-          </Typography> */}
-            <Grid container direction="row" alignItems="left">
-                <Grid item xs={1} alignItems="left" >
-                    Bài Tập Nhóm
-                </Grid>
-                <Grid item xs ={3} alignItems="right">
-                    2
-                </Grid>
+          <Grid container direction="row" alignItems="left">
+            <Grid item xs={1} alignItems="left">
+              {grade?.name}
             </Grid>
+            <Grid item xs ={3} alignItems="right">
+              {grade?.weight}
+            </Grid>
+          </Grid>
         </CardContent>
       </Card >
-    </Link>
-
-
+  </Link>
   );
 }

@@ -106,3 +106,9 @@ export async function inviteByEmail(class_id, email, role) {
         return null;
     }
 }
+
+export async function getGrade(class_id, id) {
+    const data = await getData(`${process.env.REACT_APP_BASE_URL}/grades/${class_id}/${id}`);
+    console.log(data);
+    return data;
+}

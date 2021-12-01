@@ -8,10 +8,10 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import CircularIndeterminate from './Progress'
 import { useParams } from 'react-router-dom';
+import { getData } from '../configs/request';
 import GradeList from './GradeList'
 
-import { getData } from '../configs/request';
-function ClassDetail() {
+export default function ClassDetail({reRender}) {
 
     const commonStyles = {
         bgcolor: 'background.paper',
@@ -20,20 +20,19 @@ function ClassDetail() {
     };
     const [isLoading, setIsLoading] = React.useState(true);
 
-    const [info, setInfo] = React.useState('');
+    const [info, setInfor] = React.useState('');
     const params = useParams();
-    // console.log(params.id);
-
 
     const getInformation = async () => {
         setIsLoading(true);
+        console.log(`${process.env.REACT_APP_BASE_URL}/classes/${params.id}`);
         const data = await getData(`${process.env.REACT_APP_BASE_URL}/classes/${params.id}`);
         setIsLoading(false);
-        setInfo(data);
-        // console.log(data);
+        setInfor(data);
+        //console.log(info);
     }
 
-    React.useEffect(() => { getInformation(); }, []);
+    React.useEffect(() => { getInformation(); }, [reRender]);
 
     return (
         <>
@@ -41,8 +40,7 @@ function ClassDetail() {
             <Container maxWidth="md">
                 {
                     isLoading ?
-                        <Box sx={{ alignItems: 'center' }
-                        } >
+                        <Box sx={{ alignItems: 'center' }}>
                             <CircularIndeterminate />
                         </Box > :
                             <div>
@@ -69,15 +67,10 @@ function ClassDetail() {
                                     />
                                 </Box>
 
-                                <GradeList></GradeList>
+                                <GradeList grade_order = {info.grade_order}></GradeList>
                             </div>
-                        
-
-                        
                 }
             </Container>
         </>
     );
 }
-
-export default ClassDetail;
