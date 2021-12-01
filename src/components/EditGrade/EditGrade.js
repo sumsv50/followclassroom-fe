@@ -41,11 +41,10 @@ export default function EditGrade ({reRender}) {
         return;
       }
 
-    //   const isSuccess = await updateGrade(params.class_id, params.id, name, weight);
-    const isSuccess = true;
-      
+    const isSuccess = await updateGrade(params.class_id, params.id, name, weight);
+  
       if(isSuccess) {
-        navigate(`/classes/${params.id}`);
+        navigate(`/classes/${params.class_id}`);
       } else {
         setErrorMessage("Incorrect value!");
       }
@@ -58,11 +57,10 @@ export default function EditGrade ({reRender}) {
   const deleteForm = async() => {
     try {
 
-    //   const isSuccess = await deleteGrade(params.class_id, params.id);
-    const isSuccess = true;
+    const isSuccess = await deleteGrade(params.class_id, params.id);
       
       if(isSuccess) {
-        navigate(`/classes/${params.id}`);
+        navigate(`/classes/${params.class_id}`);
       } else {
         setErrorMessage("Fail Delete!");
       }
@@ -73,7 +71,7 @@ export default function EditGrade ({reRender}) {
   }
 
   const goBack = async() => {
-    return navigate(`/classes/${params.id}`);
+    return navigate(`/classes/${params.class_id}`);
   }
 
   useEffect(() => { getGradeDetail(); }, [reRender]);

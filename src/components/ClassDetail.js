@@ -63,10 +63,10 @@ export default function ClassDetail({reRender}) {
                                 }}>
                                     <CardContent>
                                         <Typography component="div" variant="h5">
-                                            {info.name}
+                                            {info?.name}
                                         </Typography>
                                         <Typography variant="subtitle1" color="text.secondary" component="div">
-                                            {info.description}
+                                            {info?.description}
                                         </Typography>
                                     </CardContent>
 
