@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 import { getData } from '../configs/request';
 import GradeList from './GradeList'
 
-export default function ClassDetail({reRender}) {
+export default function ClassDetail({ reRender }) {
 
     const commonStyles = {
         bgcolor: 'background.paper',
@@ -21,6 +21,7 @@ export default function ClassDetail({reRender}) {
     const [isLoading, setIsLoading] = React.useState(true);
 
     const [info, setInfor] = React.useState('');
+    const [gradeOrder, setGradeOrder] = React.useState([]);
     const params = useParams();
 
     const getInformation = async () => {
@@ -29,10 +30,17 @@ export default function ClassDetail({reRender}) {
         const data = await getData(`${process.env.REACT_APP_BASE_URL}/classes/${params.id}`);
         setIsLoading(false);
         setInfor(data);
-        //console.log(info);
+        setGradeOrder(data.grade_order);
     }
 
-    React.useEffect(() => { getInformation(); }, [reRender]);
+
+    const handleDragAndDrop = (gradeOrder) => {
+        setGradeOrder(gradeOrder);
+    }
+
+    React.useEffect(() => {
+        getInformation();
+    }, [reRender]);
 
     return (
         <>
@@ -43,32 +51,32 @@ export default function ClassDetail({reRender}) {
                         <Box sx={{ alignItems: 'center' }}>
                             <CircularIndeterminate />
                         </Box > :
-                            <div>
-                                <Box sx={{
-                                    ...commonStyles,
-                                    borderRadius: 2, borderColor: "grey.500", display: 'flex', justifyContent: 'space-between'
-                                }}>
-                                    <CardContent>
-                                        <Typography component="div" variant="h5">
-                                            {info.name}
-                                        </Typography>
-                                        <Typography variant="subtitle1" color="text.secondary" component="div">
-                                            {info.description}
-                                        </Typography>
-                                    </CardContent>
+                        <div>
+                            <Box sx={{
+                                ...commonStyles,
+                                borderRadius: 2, borderColor: "grey.500", display: 'flex', justifyContent: 'space-between'
+                            }}>
+                                <CardContent>
+                                    <Typography component="div" variant="h5">
+                                        {info.name}
+                                    </Typography>
+                                    <Typography variant="subtitle1" color="text.secondary" component="div">
+                                        {info.description}
+                                    </Typography>
+                                </CardContent>
 
-                                    <CardMedia
-                                        component="img"
-                                        sx={{
-                                            width: 151
-                                        }}
-                                        image="../class.jpg"
-                                        alt="Class_cover"
-                                    />
-                                </Box>
+                                <CardMedia
+                                    component="img"
+                                    sx={{
+                                        width: 151
+                                    }}
+                                    image="https://res.cloudinary.com/dzhnjuvzt/image/upload/v1637768355/class_ayj0mh.jpg"
+                                    alt="Class_cover"
+                                />
+                            </Box>
 
-                                <GradeList grade_order = {info.grade_order}></GradeList>
-                            </div>
+                            <GradeList onDragAndDrop={handleDragAndDrop} grade_order={gradeOrder}></GradeList>
+                        </div>
                 }
             </Container>
         </>

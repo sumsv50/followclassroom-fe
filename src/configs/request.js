@@ -76,12 +76,12 @@ export async function signByLink(type, data, id) {
         const response = await postData(`${process.env.REACT_APP_BASE_URL}/classlink/${id}/${route}`, data);
         const token = response?.authorization;
 
-        if(!response?.isSuccess || !token) {
+        if (!response?.isSuccess || !token) {
             return false;
         }
         localStorage.setItem("token", token);
         return true;
-    } catch(err) {
+    } catch (err) {
         console.log(err);
         return false;
     }
@@ -90,7 +90,7 @@ export async function signByLink(type, data, id) {
 export async function updateUser(data) {
     try {
         const response = await postData(`${process.env.REACT_APP_BASE_URL}/api/user-update`, data);
-        return response?.isSuccess ? response?.isSuccess: false;
+        return response?.isSuccess ? response?.isSuccess : false;
     } catch (err) {
         console.log(err);
         return false;
@@ -99,7 +99,7 @@ export async function updateUser(data) {
 
 export async function inviteByEmail(class_id, email, role) {
     try {
-        const response = await postData(`${process.env.REACT_APP_BASE_URL}/email`, {class_id, email, role});
+        const response = await postData(`${process.env.REACT_APP_BASE_URL}/email`, { class_id, email, role });
         return response;
     } catch (err) {
         console.log(err);
@@ -109,6 +109,27 @@ export async function inviteByEmail(class_id, email, role) {
 
 export async function getGrade(class_id, id) {
     const data = await getData(`${process.env.REACT_APP_BASE_URL}/grades/${class_id}/${id}`);
-    console.log(data);
+    // console.log(data);
     return data;
+}
+
+export async function putData(url = '', data = {}) {
+    const token = localStorage.getItem("token");
+    // Default options are marked with *
+    const response = await fetch(url, {
+        method: 'PUT',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(data)
+    });
+    if (!response.ok) {
+        return handleError(response);
+    };
+    return await response.json();
 }

@@ -1,25 +1,21 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-import { getData } from '../configs/request';
 import { useParams } from 'react-router-dom';
 import { getGrade } from '../configs/request';
 
 export default function GradeThumb({ id }) {
   const params = useParams();
-  console.log(id);
-  console.log(params);
+  // console.log(id);
+  // console.log(params);
   const [grade, setGrade] = React.useState([]);
 
-  React.useEffect( () => {
+  React.useEffect(() => {
     async function fetchData() {
       const result = await getGrade(params.id, id);
-      console.log('result ',result);
+      // console.log('result ', result);
       setGrade(result);
     }
     fetchData();
@@ -36,12 +32,12 @@ export default function GradeThumb({ id }) {
             <Grid item xs={1} alignItems="left">
               {grade?.name}
             </Grid>
-            <Grid item xs ={3} alignItems="right">
+            <Grid item xs={3} alignItems="right">
               {grade?.weight}
             </Grid>
           </Grid>
         </CardContent>
       </Card >
-  </Link>
+    </Link>
   );
 }
