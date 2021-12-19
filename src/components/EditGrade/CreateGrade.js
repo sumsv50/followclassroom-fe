@@ -12,18 +12,20 @@ import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
 
 export default function CreateGrade () {
   const [name, setName] = useState('');
   const [weight, setWeight] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
   const theme = createTheme();
 
   const submitForm = async() => {
     try {
-
       if(!name) {
         setErrorMessage('Name not valid!');
         return;
@@ -33,8 +35,8 @@ export default function CreateGrade () {
         setErrorMessage('Right weight must under 10')
         return;
       }
-
-      const isSuccess = await crtGrade(params.id, name, weight);
+      setIsSaving(true);
+      const isSuccess = await crtGrade(params.id, name.trim(), weight);
       
       if(isSuccess) {
         navigate(`/classes/${params.id}`);
@@ -75,7 +77,7 @@ export default function CreateGrade () {
               onChange={
                 (event) => {
                   setErrorMessage('');
-                  setName(event.target.value.trim());
+                  setName(event.target.value);
                 }
               }
               autoFocus
@@ -103,14 +105,17 @@ export default function CreateGrade () {
             <Button onClick={goBack} sx={{ mt: 3, ml: 1 }}>
                 Back
             </Button>
-
-            <Button
-                variant="contained"
-                onClick={submitForm}
-                sx={{ mt: 3, ml: 1 }}
+            
+            <LoadingButton
+              sx={{ mt: 3, ml: 1 }}
+              onClick={submitForm}
+              loading={isSaving}
+              startIcon={<SaveIcon />}
+              loadingPosition="start"
+              variant="contained"
             >
-                Confirm
-            </Button>
+              Confirm
+            </LoadingButton>
             </Box>
         </React.Fragment> 
     </React.Fragment>
