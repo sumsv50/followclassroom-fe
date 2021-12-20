@@ -44,7 +44,7 @@ export default function ResponsiveGrid() {
 
     return (
         <>
-            <Header val={1} classId={params.id} />
+            <Header val={1} currentTab="member" classId={params.id} />
             <Container maxWidth="md">
                 {/* <Box sx={{ flexGrow: 1 }}
                     style={{
@@ -54,7 +54,10 @@ export default function ResponsiveGrid() {
                 > */}
                 {
                     isLoading ?
-                        <Box sx={{ marginTop: '35vh' }}>
+                    <Box sx={{ display: 'flex',
+                        marginTop: '35vh',
+                        justifyContent: 'center'
+                    }}>
                             <CircularIndeterminate />
                         </Box> :
                         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>

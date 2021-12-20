@@ -109,7 +109,7 @@ export default function ClassLink({ reRender }) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Header val={3} classId={params.id} />
+      <Header val={3} currentTab="invite" classId={params.id} />
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
 
         <Paper variant="outlined" sx={{ my: { xs: 12, md: 6 }, p: { xs: 2, md: 3 } }}>

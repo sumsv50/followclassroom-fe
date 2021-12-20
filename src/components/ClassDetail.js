@@ -49,11 +49,14 @@ export default function ClassDetail({reRender}) {
 
     return (
         <>
-            <Header val={0} classId={params.id} />
+            <Header val={0} currentTab="info" classId={params.id} />
             <Container maxWidth="md">
                 {
                     isLoading ?
-                        <Box sx={{ alignItems: 'center' }}>
+                        <Box sx={{ display: 'flex',
+                            marginTop: '35vh',
+                            justifyContent: 'center'
+                        }}>
                             <CircularIndeterminate />
                         </Box > :
                             <div>

@@ -13,7 +13,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useNavigate, Link } from 'react-router-dom';
 
-export default function PrimarySearchAppBar({ val, classId }) {
+export default function PrimarySearchAppBar({ val, currentTab, classId }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -149,13 +149,13 @@ export default function PrimarySearchAppBar({ val, classId }) {
               }
               aria-label="lab API tabs example">
               <Tab onClick={navigateToInfoTab}
-                label={<span style={{ color: 'white' }}>Info</span>}
+                label={<span style={{ color: currentTab != 'info' && 'white' }}>Info</span>}
               />
               <Tab onClick={navigateToMemberTab}
-                label={<span style={{ color: 'white' }}>Member</span>}
+                label={<span style={{ color: currentTab != 'member' && 'white' }}>Member</span>}
               />
               <Tab onClick={navigateToInviteTab}
-                label={<span style={{ color: 'white' }}>Invite</span>}
+                label={<span style={{ color: currentTab != 'invite' && 'white' }}>Invite</span>}
               />
             </Tabs>
           </Box>
