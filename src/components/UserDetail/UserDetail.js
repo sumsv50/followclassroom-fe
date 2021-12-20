@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import CircularIndeterminate from '../Progress';
+import CircularIndeterminate from '../Common/Progress';
 import { getData } from '../../configs/request';
 import { useState, useEffect } from 'react';
 

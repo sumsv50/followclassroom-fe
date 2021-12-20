@@ -12,6 +12,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useNavigate, Link } from 'react-router-dom';
+import { spacing } from '@mui/lab/node_modules/@mui/system';
 
 export default function PrimarySearchAppBar({ val, currentTab, classId }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -48,6 +49,10 @@ export default function PrimarySearchAppBar({ val, currentTab, classId }) {
 
   const navigateToMemberTab = () => {
     navigate(`/classes/${classId}/userclass`);
+  }
+
+  const navigateToGradeTab =  () => {
+    navigate(`/classes/${classId}/grade`);
   }
 
   const navigateToInviteTab = () => {
@@ -139,23 +144,27 @@ export default function PrimarySearchAppBar({ val, currentTab, classId }) {
             </Typography>
           </Link>
 
-          <Box sx={{ display: 'flex', flexGrow: 5, justifyContent: 'center' }}>
+          <Box sx={{ display: 'flex', flexGrow: 5, justifyContent: 'center'}}>
             <Tabs
+              value={val}
               TabIndicatorProps={{
-                sx: {
-                  backgroundColor: 'black',
+                style: {
+                  background: 'black',
                 },
-              }
-              }
-              aria-label="lab API tabs example">
-              <Tab onClick={navigateToInfoTab}
-                label={<span style={{ color: currentTab != 'info' && 'white' }}>Info</span>}
+              }}
+              textColor="white"
+              aria-label="secondary tabs example">
+              <Tab onClick={navigateToInfoTab} value={0}
+                label={<span>Info</span>}
               />
-              <Tab onClick={navigateToMemberTab}
-                label={<span style={{ color: currentTab != 'member' && 'white' }}>Member</span>}
+              <Tab onClick={navigateToMemberTab} value={1}
+                label={<span>Member</span>}
               />
-              <Tab onClick={navigateToInviteTab}
-                label={<span style={{ color: currentTab != 'invite' && 'white' }}>Invite</span>}
+              <Tab onClick={navigateToGradeTab} value={2}
+                label={<span>Grade</span>}
+              />
+              <Tab onClick={navigateToInviteTab} value={3}
+                label={<span>Invite</span>}
               />
             </Tabs>
           </Box>

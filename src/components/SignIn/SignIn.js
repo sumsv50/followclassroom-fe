@@ -15,8 +15,8 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import GoogleLogin from 'react-google-login';
 import './SignIn.css';
-import { authentication } from '../configs/request';
-import Loading from './Loading';
+import { authentication } from '../../configs/request';
+import Loading from '../Common/Loading';
 require('dotenv').config();
 
 

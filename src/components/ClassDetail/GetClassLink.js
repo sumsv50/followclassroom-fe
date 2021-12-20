@@ -3,12 +3,12 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
-import Header from '../Header';
+import Header from '../Common/Header';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import CircularIndeterminate from '../Progress';
+import CircularIndeterminate from '../Common/Progress';
 import { getData } from '../../configs/request';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
@@ -109,7 +109,7 @@ export default function ClassLink({ reRender }) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Header val={3} currentTab="invite" classId={params.id} />
+      <Header val={3} classId={params.id} />
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
 
         <Paper variant="outlined" sx={{ my: { xs: 12, md: 6 }, p: { xs: 2, md: 3 } }}>

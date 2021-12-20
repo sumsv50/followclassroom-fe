@@ -1,8 +1,6 @@
-import '../App.css';
-import AppBar from './AppBar';
+import AppBar from '../Common/AppBar';
 import RoomList from './RoomList'
 import React, { useState } from 'react';
-// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function Home() {
     const [reRenderRoomList, setRerenderRoomList] = useState(false);

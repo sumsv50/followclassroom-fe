@@ -15,8 +15,8 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import GoogleLogin from 'react-google-login';
 import './SignIn.css';
-import {signByLink} from '../configs/request';
-import Loading from './Loading';
+import {signByLink} from '../../configs/request';
+import Loading from '../Common/Loading';
 import {useParams} from 'react-router-dom';
 
 

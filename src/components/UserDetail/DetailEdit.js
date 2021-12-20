@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import CircularIndeterminate from '../Progress';
+import CircularIndeterminate from '../Common/Progress';
 import { getData } from '../../configs/request';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';

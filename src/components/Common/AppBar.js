@@ -14,7 +14,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-import FormDialog from './FormDialog';
+import FormDialog from '../RoomList/FormDialog';
 
 export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
   const [anchorEl, setAnchorEl] = React.useState(null);

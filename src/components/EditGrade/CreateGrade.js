@@ -50,7 +50,7 @@ export default function CreateGrade () {
   }
 
   const goBack = async() => {
-    return navigate(`/classes/${params.id}`);
+    return navigate(`/classes/${params.id}/grade`);
   }
 
   return(
@@ -95,7 +95,6 @@ export default function CreateGrade () {
                   setWeight(event.target.value.trim());
                 }
               }
-              autoFocus
             />
           </Grid>
         </Grid> 

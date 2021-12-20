@@ -12,8 +12,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import GoogleLogin from 'react-google-login';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { postData, authentication } from '../configs/request';
-import Loading from './Loading';
+import { postData, authentication } from '../../configs/request';
+import Loading from '../Common/Loading';
 
 function Copyright(props) {
   return (

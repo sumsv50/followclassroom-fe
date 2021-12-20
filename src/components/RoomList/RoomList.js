@@ -2,8 +2,8 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import ClassThumb from './ClassThumb';
-import CircularIndeterminate from './Progress'
-import { getData } from '../configs/request';
+import CircularIndeterminate from '../Common/Progress'
+import { getData } from '../../configs/request';
 
 export default function ResponsiveGrid({ reRender }) {
   const [roomList, setRoomList] = React.useState([]);

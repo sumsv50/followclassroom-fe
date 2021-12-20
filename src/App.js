@@ -1,16 +1,17 @@
 import './App.css';
-import SignUp from './components/SignUp';
-import SignIn from './components/SignIn';
-import Home from './components/Home';
-import ClassDetail from './components/ClassDetail';
-import UserList from './components/UserList';
-import SignUpByLink from './components/SignUpByClassLink';
-import SignInByLink from './components/SignInByClassLink';
+import SignUp from './components/SignUp/SignUp';
+import SignIn from './components/SignIn/SignIn';
+import Home from './components/RoomList/Home';
+import ClassDetail from './components/ClassDetail/ClassDetail';
+import UserList from './components/ClassDetail/UserList';
+import SignUpByLink from './components/SignUp/SignUpByClassLink';
+import SignInByLink from './components/SignIn/SignInByClassLink';
 import Checkout from './components/UserDetail/CheckOut';
 import Success from './components/UserDetail/Successform';
 import ClassLink from './components/ClassDetail/GetClassLink';
 import CreateGrade from './components/EditGrade/CreateGrade';
 import EditGrade from './components/EditGrade/EditGrade';
+import GradeTab from './components/ClassDetail/GradeTab';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path="/user/success" element={<Success />} />
           <Route path="/classes/:id/getlink" element={<ClassLink />} />
           <Route path="/classes/:id/create-grade" element={<CreateGrade />} />
+          <Route path="/classes/:id/grade" element={<GradeTab />} />
           <Route path="/classes/:class_id/:id/edit" element={<EditGrade/>} />
         </Routes>
       </div>

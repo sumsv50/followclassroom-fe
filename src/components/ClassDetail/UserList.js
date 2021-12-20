@@ -4,9 +4,9 @@ import { Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import { useParams } from 'react-router-dom';
-import Header from './Header';
-import CircularIndeterminate from './Progress'
-import { getData } from '../configs/request';
+import Header from '../Common/Header';
+import CircularIndeterminate from '../Common/Progress'
+import { getData } from '../../configs/request';
 import ListItemText from '@mui/material/ListItemText';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -44,7 +44,7 @@ export default function ResponsiveGrid() {
 
     return (
         <>
-            <Header val={1} currentTab="member" classId={params.id} />
+            <Header val={1} classId={params.id} />
             <Container maxWidth="md">
                 {/* <Box sx={{ flexGrow: 1 }}
                     style={{

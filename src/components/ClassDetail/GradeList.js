@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 import GradeThumb from './GradeThumb';
 import { Draggable, DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useParams } from 'react-router-dom';
-import { putData } from '../configs/request';
+import { putData } from '../../configs/request';
 
 export default function ResponsiveGrid({ grade_order, onDragAndDrop }) {
   const params = useParams();
