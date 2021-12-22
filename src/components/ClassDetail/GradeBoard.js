@@ -5,13 +5,10 @@ import Box from '@mui/material/Box';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
 import { DataGrid } from '@mui/x-data-grid';
 import CircularIndeterminate from '../Common/Progress'
 import { useParams, useNavigate } from 'react-router-dom';
-import { getData, getGrade } from '../../configs/request';
+import { getData, getGrade, postData } from '../../configs/request';
 import fileTemplateForGrades from '../../assets/Template-for-grades.xlsx'
 
 
@@ -35,17 +32,17 @@ export default function GradeBoard({ reRender }) {
         { field: 'student_id', headerName: 'StudentID'},
         // { field: 'User', headerName: 'Email', width: 200, renderCell: params => params.value.email },
         { field: 'fullname', headerName: 'Name', width: 200},
-        ...gradeDetail.map(grade => ({field: grade.name, headerName: grade.name, type: 'number'})),
+        ...gradeDetail.map(grade => ({
+            field: `GD ${grade.id}`, headerName: grade.name, type: 'number', editable: true,
+        })),
         { field: 'gpa', headerName: 'GDP', type: 'number'}
     ];
 
     const getUserList = async () => {
         setIsLoading(true);
         const data = await getData(`${process.env.REACT_APP_BASE_URL}/gradeboard/${params.id}`);
-        console.log(data);
         setIsLoading(false);
         setUserList(Array.isArray(data) ? data : []);
-        console.log("user list", data);
     }
 
     const getGradeDetail = async (classId, gradeIdList) => {
@@ -128,13 +125,21 @@ export default function GradeBoard({ reRender }) {
                                     </Typography>
                                     <br />
                                 </CardContent>
-                                <div style={{ height: 400, width: '100%' }}>
+                                <div style={{ height: 500, width: '100%' }}>
                                     <DataGrid
                                         rows={userList}
                                         columns={columns}
-                                        pageSize={5}
+                                        pageSize={30}
                                         rowsPerPageOptions={[4]}
-                                    // checkboxSelection
+                                        onCellEditCommit={newSelection => {
+                                            const studentId = userList.find(user => user.id == newSelection.id).student_id
+                                            const gradeId = newSelection?.field?.split(' ')[1];
+                                            const score = newSelection?.value;
+                                            if(!studentId || !gradeId || !score) {
+                                                return;
+                                            }
+                                            postData(`${process.env.REACT_APP_BASE_URL}/scores/${gradeId}`, {studentId, score});
+                                        }}
                                     />
                                 </div>
                             </Box>
@@ -144,3 +149,68 @@ export default function GradeBoard({ reRender }) {
         </>
     );
 }
+
+
+
+
+// import * as React from 'react';
+// import { DataGrid } from '@mui/x-data-grid';
+
+// const columns = [
+//   { field: 'id', headerName: 'ID', width: 90 },
+//   {
+//     field: 'firstName',
+//     headerName: 'First name',
+//     width: 150,
+//     editable: true,
+//   },
+//   {
+//     field: 'lastName',
+//     headerName: 'Last name',
+//     width: 150,
+//     editable: true,
+//   },
+//   {
+//     field: 'age',
+//     headerName: 'Age',
+//     type: 'number',
+//     width: 110,
+//     editable: true,
+//   },
+//   {
+//     field: 'fullName',
+//     headerName: 'Full name',
+//     description: 'This column has a value getter and is not sortable.',
+//     sortable: false,
+//     width: 160,
+//     valueGetter: (params) =>
+//       `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+//   },
+// ];
+
+// const rows = [
+//   { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
+//   { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
+//   { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
+//   { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
+//   { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
+//   { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
+//   { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
+//   { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
+//   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+// ];
+
+// export default function DataGridDemo() {
+//   return (
+//     <div style={{ height: 400, width: '100%' }}>
+//       <DataGrid
+//         rows={rows}
+//         columns={columns}
+//         pageSize={5}
+//         rowsPerPageOptions={[5]}
+//         checkboxSelection
+//         disableSelectionOnClick
+//       />
+//     </div>
+//   );
+// }
