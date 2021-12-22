@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -17,7 +17,6 @@ import GoogleLogin from 'react-google-login';
 import './SignIn.css';
 import { signByLink } from '../../configs/request';
 import Loading from '../Common/Loading';
-import { useParams } from 'react-router-dom';
 
 
 function Copyright() {

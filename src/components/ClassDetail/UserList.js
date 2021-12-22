@@ -3,14 +3,13 @@ import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
+import ListItemText from '@mui/material/ListItemText';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 import { useParams } from 'react-router-dom';
 import Header from '../Common/Header';
 import CircularIndeterminate from '../Common/Progress'
 import { getData } from '../../configs/request';
-import ListItemText from '@mui/material/ListItemText';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-
 
 export default function ResponsiveGrid() {
     const [userList, setUserList] = React.useState([]);
@@ -26,32 +25,14 @@ export default function ResponsiveGrid() {
         console.log(data);
     }
 
-
-    // React.useEffect(async () => {
-    //     await getUserList();
-    // }, [reRender]);
     React.useEffect(async () => {
         await getUserList();
     }, []);
-
-    const commonStyles = {
-        bgcolor: 'background.paper',
-        m: 1,
-        borderColor: 'text.primary',
-        width: '5rem',
-        height: '2rem',
-    };
 
     return (
         <>
             <Header val={1} classId={params.id} />
             <Container maxWidth="md">
-                {/* <Box sx={{ flexGrow: 1 }}
-                    style={{
-                        display: 'flex',
-                        // justifyContent: 'center',
-                    }}
-                > */}
                 {
                     isLoading ?
                         <Box sx={{
@@ -98,50 +79,9 @@ export default function ResponsiveGrid() {
                                         : <> </>
                                 ))}
                             </List>
-                            {/* <List sx={{ width: '100%', maxWidth: 360 }}>
-                                    <Typography variant="h4">
-                                        Giáo viên
-                                    </Typography>
-                                    <Divider />
-                                    {userList.map((userclass, index) => (
-                                        <>
-                                            <ListItem alignItems="flex-start">
-                                                <ListItemText
-                                                    primary={userclass.User.email}
-                                                />
-                                            </ListItem>
-                                            <Divider component="li" />
-                                        </>
-                                    ))}
-                                </List> */}
-                            {/* <Box sx={{
-                                    width: 300,
-                                    height: 300,
-                                }}>
-                                    <Typography variant="h4">
-                                        Giáo viên
-                                    </Typography>
-                                    <Divider />
-                                    {
-                                        userList.map((userclass, index) => (
-                                            userclass.role === 'student' ?
-                                                <>
-                                                    <Box sx={{ ...commonStyles }}>
-                                                        <Typography>
-                                                            {userclass.User.email}
-                                                        </Typography>
-                                                    </Box>
-                                                    <Divider light />
-                                                </>
-                                                : <> </>))
-                                    }
-                                </Box> */}
                         </Box>
                 }
-                {/* </Box> */}
             </Container >
-
-
         </>
     );
 }

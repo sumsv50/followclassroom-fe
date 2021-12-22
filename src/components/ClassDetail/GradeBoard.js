@@ -5,14 +5,13 @@ import Box from '@mui/material/Box';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import CircularIndeterminate from '../Common/Progress'
-import { useParams } from 'react-router-dom';
-import { getData, getGrade } from '../../configs/request';
-import { useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import { DataGrid } from '@mui/x-data-grid';
+import CircularIndeterminate from '../Common/Progress'
+import { useParams, useNavigate } from 'react-router-dom';
+import { getData, getGrade } from '../../configs/request';
 import fileTemplateForGrades from '../../assets/Template-for-grades.xlsx'
 
 
@@ -77,7 +76,6 @@ export default function GradeBoard({ reRender }) {
         await getGradeDetail(params.id, data.grade_order);
         await getUserList();
     }
-
 
     React.useEffect(() => { getInformation(); }, [reRender]);
 
@@ -169,7 +167,7 @@ export default function GradeBoard({ reRender }) {
                                             style={{ textAlign: 'left' }}
                                         >
                                             <Typography variant="h7" component="div" style={{ color: 'black' }}>
-                                                Template for grades for an assignment: 
+                                                Template for grades for an assignment:
                                                 <a href={fileTemplateForGrades} download="Template-for-grades.xlsx">Download Here</a>
                                             </Typography>
                                             <br />

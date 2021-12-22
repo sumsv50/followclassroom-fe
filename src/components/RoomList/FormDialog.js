@@ -61,17 +61,6 @@ export default function FormDialog({ open, handleClose, toggleRerenderRoomList }
                 setDescription(e.target.value);
               }}
             />
-            {/* <TextField
-              margin="dense"
-              id="room"
-              label="Phòng"
-              required
-              fullWidth
-              variant="standard"
-              onChange={(e) => {
-                setRoom(e.target.value);
-              }}
-            /> */}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Huỷ</Button>

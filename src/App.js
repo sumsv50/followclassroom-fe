@@ -33,7 +33,7 @@ function App() {
           <Route path="/classes/:id/create-grade" element={<CreateGrade />} />
           <Route path="/classes/:id/grade" element={<GradeTab />} />
           <Route path="/classes/:id/gradeboard" element={<GradeBoard />} />
-          <Route path="/classes/:class_id/:id/edit" element={<EditGrade/>} />
+          <Route path="/classes/:class_id/:id/edit" element={<EditGrade />} />
         </Routes>
       </div>
     </Router>

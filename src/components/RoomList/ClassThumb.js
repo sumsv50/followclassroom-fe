@@ -28,7 +28,5 @@ export default function ClassThumb({ id, name, description }) {
         </CardContent>
       </Card >
     </Link>
-
-
   );
 }
