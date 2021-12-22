@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import CardContent from '@mui/material/CardContent';
@@ -34,15 +33,15 @@ export default function GradeThumb({ id }) {
       }}>
         <CardContent>
           <Grid container direction="row" alignItems="left">
-            <Grid item xs={1} alignItems="left">
+            <Grid item xs={3} alignItems="left">
               {grade?.name}
             </Grid>
 
-            <Grid item xs ={2} alignItems="right">
+            <Grid item xs ={6} alignItems="right">
               {grade?.weight}
             </Grid>
 
-            <Grid item xs ={1} alignItems="right">
+            <Grid item xs ={3} alignItems="right">
               <IconButton
                 size="small"
                 edge="end"

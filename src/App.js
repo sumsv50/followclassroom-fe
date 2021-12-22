@@ -12,6 +12,7 @@ import ClassLink from './components/ClassDetail/GetClassLink';
 import CreateGrade from './components/EditGrade/CreateGrade';
 import EditGrade from './components/EditGrade/EditGrade';
 import GradeTab from './components/ClassDetail/GradeTab';
+import GradeBoard from './components/ClassDetail/GradeBoard';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
           <Route path="/classes/:id/getlink" element={<ClassLink />} />
           <Route path="/classes/:id/create-grade" element={<CreateGrade />} />
           <Route path="/classes/:id/grade" element={<GradeTab />} />
+          <Route path="/classes/:id/gradeboard" element={<GradeBoard />} />
           <Route path="/classes/:class_id/:id/edit" element={<EditGrade/>} />
         </Routes>
       </div>

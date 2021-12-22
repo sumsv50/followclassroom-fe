@@ -54,10 +54,11 @@ export default function ResponsiveGrid() {
                 > */}
                 {
                     isLoading ?
-                    <Box sx={{ display: 'flex',
-                        marginTop: '35vh',
-                        justifyContent: 'center'
-                    }}>
+                        <Box sx={{
+                            display: 'flex',
+                            marginTop: '35vh',
+                            justifyContent: 'center'
+                        }}>
                             <CircularIndeterminate />
                         </Box> :
                         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>

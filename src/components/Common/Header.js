@@ -12,7 +12,6 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useNavigate, Link } from 'react-router-dom';
-import { spacing } from '@mui/lab/node_modules/@mui/system';
 
 export default function PrimarySearchAppBar({ val, currentTab, classId }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
