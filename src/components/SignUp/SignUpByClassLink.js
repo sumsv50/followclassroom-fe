@@ -4,7 +4,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import { Link, useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -12,9 +11,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import GoogleLogin from 'react-google-login';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { postData, signByLink } from '../../configs/request';
 import Loading from '../Common/Loading';
-import {useParams} from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -32,7 +31,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUpByLink() {
-    const params = useParams();
+  const params = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -44,14 +43,14 @@ export default function SignUpByLink() {
     try {
       const access_token = response.accessToken;
       setIsLoading(true);
-      const isSuccess = await signByLink('google', {access_token}, params.id);
-      if(isSuccess) {
+      const isSuccess = await signByLink('google', { access_token }, params.id);
+      if (isSuccess) {
         navigate('/classes');
       } else {
         setErrorMessage('Try again!');
         setIsLoading(false);
       }
-    } catch(err) {
+    } catch (err) {
       console.log(err);
       setErrorMessage('Try again!');
       setIsLoading(false);
@@ -60,18 +59,18 @@ export default function SignUpByLink() {
 
   const handleSubmit = async () => {
     const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    
-    if(!regexEmail.test(email)) {
+
+    if (!regexEmail.test(email)) {
       setErrorMessage('Email not valid!');
       return;
     }
 
-    if(password.length < 6) {
+    if (password.length < 6) {
       setErrorMessage('Password must have at least 6 characters')
       return;
     }
 
-    if(password !== confirmPassword) {
+    if (password !== confirmPassword) {
       setErrorMessage('Confirm password not match Password');
       return;
     }
@@ -82,7 +81,7 @@ export default function SignUpByLink() {
       password,
       confirm_password: confirmPassword
     })
-    if(response?.isSuccess) {
+    if (response?.isSuccess) {
       navigate(`/sign-in/${params.id}`);
     } else {
       setErrorMessage(response?.message);
@@ -92,7 +91,7 @@ export default function SignUpByLink() {
 
   return (
     <Grid container component="main">
-      {isLoading && <Loading/>}
+      {isLoading && <Loading />}
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -115,28 +114,6 @@ export default function SignUpByLink() {
                 {errorMessage}
               </Typography>
               <Grid container spacing={2}>
-                {/* <Grid item xs={12} sm={6}>
-                  <TextField
-                    autoComplete="given-name"
-                    name="firstName"
-                    required
-                    fullWidth
-                    id="firstName"
-                    label="First Name"
-                    autoFocus
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="lastName"
-                    label="Last Name"
-                    name="lastName"
-                    autoComplete="family-name"
-                  />
-                </Grid> */}
-               
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -190,10 +167,6 @@ export default function SignUpByLink() {
                 <Grid item xs={12}
                   align="left"
                 >
-                  {/* <FormControlLabel
-                    control={<Checkbox value="allowExtraEmails" color="primary" />}
-                    label="Remember me"
-                  /> */}
                 </Grid>
               </Grid>
               <Button
@@ -243,21 +216,6 @@ export default function SignUpByLink() {
                 onFailure={googleSuccess}
                 cookiePolicy={'single_host_origin'}
               />
-              {/* <Box
-                fullwidth
-                variant="contained"
-                className="btn-login login-fb"
-              >
-                <svg xmlns="http://www.w3.org/20svg" viewBox="0 0 216 216" className="_5h0m" color="#FFFFFF">
-                      <path fill="#FFFFFF" d="M204.1 0H11.9C5.3 0 0 5.3 0 11.9v192.2c0 6.6 5.3 11.9 11.9
-                          11.9h103.5v-83.6H87.2V99.8h28.1v-24c0-27.9 17-43.1 41.9-43.1
-                          11.9 0 22.2.9 25.2 1.3v29.2h-17.3c-13.5 0-16.2 6.4-16.2
-                          15.9v20.8h32.3l-4.2 32.6h-28V216h55c6.6 0 11.9-5.3
-                          11.9-11.9V11.9C216 5.3 210.7 0 204.1 0z">
-                      </path>
-                  </svg>
-                Facebook
-              </Box> */}
             </Box>
           </Box>
           <Copyright sx={{ mt: 5 }} />

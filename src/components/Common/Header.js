@@ -123,7 +123,6 @@ export default function PrimarySearchAppBar({ val, currentTab, classId }) {
 
   return (
     <Box sx={{ display: 'flex', flexGrow: 1 }}>
-      {/* <BrowserRouter> */}
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -202,10 +201,6 @@ export default function PrimarySearchAppBar({ val, currentTab, classId }) {
           </Box>
         </Toolbar>
       </AppBar>
-      {/* <Routes>
-          <Route path="/class" />
-        </Routes>
-      </BrowserRouter> */}
       {renderMobileMenu}
       {renderMenu}
     </Box>

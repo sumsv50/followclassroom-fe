@@ -1,6 +1,5 @@
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '../Common/AppBar';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Stepper from '@mui/material/Stepper';
@@ -30,13 +29,8 @@ const steps = ['User Detail', 'Detail Edit', 'Successful'];
 const theme = createTheme();
 
 export default function Success() {
-  const [activeStep, setActiveStep] = React.useState(3);
+  const [activeStep] = React.useState(3);
   const navigate = useNavigate();
-  const [reRenderRoomList, setRerenderRoomList] = React.useState(false);
-
-  const toggleRerenderRoomList = () => {
-      setRerenderRoomList(curr => !curr);
-  }
 
   const handleGoHome = () => {
     navigate('/');
@@ -45,7 +39,6 @@ export default function Success() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppBar toggleRerenderRoomList={toggleRerenderRoomList} />
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
           <Typography component="h1" variant="h4" align="center">

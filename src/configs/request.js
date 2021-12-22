@@ -117,12 +117,12 @@ export async function signByLink(type, data, id) {
         const response = await postData(`${process.env.REACT_APP_BASE_URL}/classlink/${id}/${route}`, data);
         const token = response?.authorization;
 
-        if(!response?.isSuccess || !token) {
+        if (!response?.isSuccess || !token) {
             return false;
         }
         localStorage.setItem("token", token);
         return true;
-    } catch(err) {
+    } catch (err) {
         console.log(err);
         return false;
     }
@@ -131,7 +131,7 @@ export async function signByLink(type, data, id) {
 export async function updateUser(data) {
     try {
         const response = await postData(`${process.env.REACT_APP_BASE_URL}/api/user-update`, data);
-        return response?.isSuccess ? response?.isSuccess: false;
+        return response?.isSuccess ? response?.isSuccess : false;
     } catch (err) {
         console.log(err);
         return false;
@@ -140,7 +140,7 @@ export async function updateUser(data) {
 
 export async function inviteByEmail(class_id, email, role) {
     try {
-        const response = await postData(`${process.env.REACT_APP_BASE_URL}/email`, {class_id, email, role});
+        const response = await postData(`${process.env.REACT_APP_BASE_URL}/email`, { class_id, email, role });
         return response;
     } catch (err) {
         console.log(err);
@@ -155,7 +155,7 @@ export async function getGrade(class_id, id) {
 
 export async function crtGrade(class_id, name, weight) {
     try {
-        const data = await postData(`${process.env.REACT_APP_BASE_URL}/grades/${class_id}`, {name, weight});
+        const data = await postData(`${process.env.REACT_APP_BASE_URL}/grades/${class_id}`, { name, weight });
         return data;
     } catch (err) {
         console.log(err);
@@ -165,7 +165,7 @@ export async function crtGrade(class_id, name, weight) {
 
 export async function updateGrade(class_id, id, name, weight) {
     try {
-        const data = await putData(`${process.env.REACT_APP_BASE_URL}/grades/${class_id}/${id}`, {name, weight});
+        const data = await putData(`${process.env.REACT_APP_BASE_URL}/grades/${class_id}/${id}`, { name, weight });
         return data;
     } catch (err) {
         console.log(err);

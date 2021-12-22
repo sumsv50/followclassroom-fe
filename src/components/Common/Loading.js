@@ -6,7 +6,7 @@ export default function Loading() {
     return (
         <Box className="full-loading"
         >
-            <CircularIndeterminate/>
+            <CircularIndeterminate />
         </Box>
     )
 }

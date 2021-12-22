@@ -7,12 +7,11 @@ import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import CircularIndeterminate from '../Common/Progress'
 import Badge from '@mui/material/Badge';
-import { useParams } from 'react-router-dom';
-import { getData } from '../../configs/request';
+import CircularIndeterminate from '../Common/Progress'
 import GradeList from './GradeList'
-import { useNavigate } from 'react-router-dom';
+import { getData } from '../../configs/request';
+import { useParams, useNavigate } from 'react-router-dom';
 
 export default function ClassDetail({ reRender }) {
 

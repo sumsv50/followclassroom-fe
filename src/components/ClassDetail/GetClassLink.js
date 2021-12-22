@@ -3,22 +3,21 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
-import Header from '../Common/Header';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import CircularIndeterminate from '../Common/Progress';
-import { getData } from '../../configs/request';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Header from '../Common/Header';
+import CircularIndeterminate from '../Common/Progress';
+import { getData, inviteByEmail } from '../../configs/request';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { inviteByEmail } from '../../configs/request';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -39,7 +38,6 @@ function Copyright() {
 
 export default function ClassLink({ reRender }) {
   const theme = createTheme();
-  // const [reRenderRoomList, setRerenderRoomList] = useState(false);
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [student_link, setStudentLink] = useState('');
@@ -60,7 +58,6 @@ export default function ClassLink({ reRender }) {
   };
 
   useEffect(() => { getclassDetail(); }, []);
-  // useEffect(() => { getclassDetail(); }, [reRender]);
 
   const submitForm = async () => {
     try {
