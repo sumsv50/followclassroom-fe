@@ -11,9 +11,10 @@ import Button from '@mui/material/Button';
 import { DataGrid } from '@mui/x-data-grid';
 import CircularIndeterminate from '../Common/Progress'
 import { useParams, useNavigate } from 'react-router-dom';
-import { getData, getGrade } from '../../configs/request';
+import { getData, getGrade, postFile } from '../../configs/request';
 import fileTemplateForGrades from '../../assets/Template-for-grades.xlsx'
-
+import fileTemplateForStudentList from '../../assets/Template-for-student-list.xlsx'
+import axios from 'axios';
 
 export default function GradeBoard({ reRender }) {
 
@@ -32,11 +33,11 @@ export default function GradeBoard({ reRender }) {
     const params = useParams();
 
     const columns = [
-        { field: 'student_id', headerName: 'StudentID'},
+        { field: 'student_id', headerName: 'StudentID' },
         // { field: 'User', headerName: 'Email', width: 200, renderCell: params => params.value.email },
-        { field: 'fullname', headerName: 'Name', width: 200},
-        ...gradeDetail.map(grade => ({field: grade.name, headerName: grade.name, type: 'number'})),
-        { field: 'gpa', headerName: 'GDP', type: 'number'}
+        { field: 'fullname', headerName: 'Name', width: 200 },
+        ...gradeDetail.map(grade => ({ field: grade.name, headerName: grade.name, type: 'number' })),
+        { field: 'gpa', headerName: 'GDP', type: 'number' }
     ];
 
     const getUserList = async () => {
@@ -71,6 +72,23 @@ export default function GradeBoard({ reRender }) {
     }
 
     React.useEffect(() => { getInformation(); }, [reRender]);
+
+    const [file, setFile] = React.useState(null);
+
+    const fileSelectedHandler = (e) => {
+        setFile(e.target.files[0]);
+
+    }
+
+    const fileUploadHandler = (e) => {
+        const fd = new FormData();
+        fd.append('file', file, file.name);
+        const res = postFile(`${process.env.REACT_APP_BASE_URL}/gradeboard/${params.id}/upload-studentlist`, fd);
+        console.log(res);
+        if (res?.isSuccess) {
+            getInformation();
+        }
+    }
 
     return (
         <>
@@ -123,8 +141,17 @@ export default function GradeBoard({ reRender }) {
                                     style={{ textAlign: 'left' }}
                                 >
                                     <Typography variant="h7" component="div" style={{ color: 'black' }}>
-                                        Template for grades for an assignment:
-                                        <a href={fileTemplateForGrades} download="Template-for-grades.xlsx">Download Here</a>
+                                        {"Grades for an assignment Template: "}
+                                        <a href={fileTemplateForGrades} download="Template-for-grades.xlsx"> Download Here</a>
+                                    </Typography>
+                                    <Typography variant="h7" component="div" style={{ color: 'black' }}>
+                                        {"Student List Template: "}
+                                        <a href={fileTemplateForStudentList} download="Template-for-student-list.xlsx"> Download Here</a>
+                                    </Typography>
+                                    <Typography variant="h7" component="div" style={{ color: 'black' }}>
+                                        {"Upload Student List: "}
+                                        <input type="file" onChange={fileSelectedHandler} />
+                                        <button onClick={fileUploadHandler}>Upload</button>
                                     </Typography>
                                     <br />
                                 </CardContent>
