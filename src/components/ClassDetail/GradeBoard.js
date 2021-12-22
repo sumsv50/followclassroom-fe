@@ -30,7 +30,6 @@ export default function GradeBoard({ reRender }) {
 
     const columns = [
         { field: 'student_id', headerName: 'StudentID' },
-        // { field: 'User', headerName: 'Email', width: 200, renderCell: params => params.value.email },
         { field: 'fullname', headerName: 'Name', width: 200 },
         ...gradeDetail.map(grade => ({ field: grade.name, headerName: grade.name, type: 'number' })),
         { field: 'gpa', headerName: 'GPA', type: 'number' }
@@ -74,11 +73,10 @@ export default function GradeBoard({ reRender }) {
 
     }
 
-    const fileUploadHandler = (e) => {
+    const fileUploadHandler = async (e) => {
         const fd = new FormData();
         fd.append('file', file, file.name);
-        const res = postFile(`${process.env.REACT_APP_BASE_URL}/gradeboard/${params.id}/upload-studentlist`, fd);
-        console.log(res);
+        const res = await postFile(`${process.env.REACT_APP_BASE_URL}/gradeboard/${params.id}/upload-studentlist`, fd);
         if (res?.isSuccess) {
             getInformation();
         }
