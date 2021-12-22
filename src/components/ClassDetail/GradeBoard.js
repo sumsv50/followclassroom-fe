@@ -16,15 +16,6 @@ import { DataGrid } from '@mui/x-data-grid';
 import fileTemplateForGrades from '../../assets/Template-for-grades.xlsx'
 
 
-const bull = (
-    <Box
-        component="span"
-        sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-    >
-        •
-    </Box>
-);
-
 export default function GradeBoard({ reRender }) {
 
     const commonStyles = {
@@ -42,18 +33,20 @@ export default function GradeBoard({ reRender }) {
     const params = useParams();
 
     const columns = [
-        { field: 'student_id', headerName: 'Student_ID', width: 130 },
-        { field: 'User', headerName: 'Email', width: 200, renderCell: params => params.value.email },
-        { field: 'fullname', headerName: 'Name', width: 120 },
-        { field: 'gpa', headerName: 'Total Grade', type: 'number', width: 120 }
+        { field: 'student_id', headerName: 'StudentID'},
+        // { field: 'User', headerName: 'Email', width: 200, renderCell: params => params.value.email },
+        { field: 'fullname', headerName: 'Name', width: 200},
+        ...gradeDetail.map(grade => ({field: grade.name, headerName: grade.name, type: 'number'})),
+        { field: 'gpa', headerName: 'GDP', type: 'number'}
     ];
 
     const getUserList = async () => {
         setIsLoading(true);
         const data = await getData(`${process.env.REACT_APP_BASE_URL}/gradeboard/${params.id}`);
+        console.log(data);
         setIsLoading(false);
         setUserList(Array.isArray(data) ? data : []);
-        console.log(data);
+        console.log("user list", data);
     }
 
     const getGradeDetail = async (classId, gradeIdList) => {
@@ -128,63 +121,25 @@ export default function GradeBoard({ reRender }) {
                                     },
                                 }}
                             >
-                                <Box
-                                    sx={{
-                                        display: 'grid',
-                                        gridTemplateColumns: 'repeat(5, 3fr)',
-                                        gap: 1,
-                                        gridTemplateRows: 'auto',
-                                        gridTemplateAreas: `"sidebar main main main main"`,
-                                    }}
+                                <CardContent
+                                    style={{ textAlign: 'left' }}
                                 >
-                                    <Box sx={{ gridArea: 'sidebar' }}>
-                                        <Card sx={{ minWidth: 100 }}>
-                                            <CardContent
-                                                style={{ textAlign: 'left' }}
-                                            >
-                                                <Typography variant="h7" component="div">
-                                                    <b>Grade Structure</b>
-                                                </Typography>
-                                                <br />
-                                                {
-                                                    gradeDetail.map(grade => {
-                                                        return (<Typography variant="body2" key={grade.id}>
-                                                            {bull}  {grade.name}: {grade.weight}
-                                                        </Typography>)
-                                                    })
-                                                }
+                                    <Typography variant="h7" component="div" style={{ color: 'black' }}>
+                                        Template for grades for an assignment:
+                                        <a href={fileTemplateForGrades} download="Template-for-grades.xlsx">Download Here</a>
+                                    </Typography>
+                                    <br />
+                                </CardContent>
+                                <div style={{ height: 400, width: '100%' }}>
+                                    <DataGrid
+                                        rows={userList}
+                                        columns={columns}
+                                        pageSize={5}
+                                        rowsPerPageOptions={[4]}
+                                    // checkboxSelection
+                                    />
+                                </div>
 
-                                                <br />
-                                            </CardContent>
-
-                                            <CardActions>
-                                                <Button size="small" onClick={() => { navigate(`/classes/${params.id}/grade`); }}>
-                                                    Edit
-                                                </Button>
-                                            </CardActions>
-                                        </Card>
-                                    </Box>
-                                    <Box sx={{ gridArea: 'main' }}>
-                                        <CardContent
-                                            style={{ textAlign: 'left' }}
-                                        >
-                                            <Typography variant="h7" component="div" style={{ color: 'black' }}>
-                                                Template for grades for an assignment: 
-                                                <a href={fileTemplateForGrades} download="Template-for-grades.xlsx">Download Here</a>
-                                            </Typography>
-                                            <br />
-                                        </CardContent>
-                                        <div style={{ height: 400, width: '100%' }}>
-                                            <DataGrid
-                                                rows={userList}
-                                                columns={columns}
-                                                pageSize={5}
-                                                rowsPerPageOptions={[4]}
-                                            // checkboxSelection
-                                            />
-                                        </div>
-                                    </Box>
-                                </Box>
                             </Box>
                         </div>
                 }
