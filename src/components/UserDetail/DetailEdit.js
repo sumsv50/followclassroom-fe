@@ -67,7 +67,7 @@ export default function EditForm({reRender}) {
   }
 
   const goBack = async() => {
-    return navigate('/home');
+    return navigate('/');
   }
 
 

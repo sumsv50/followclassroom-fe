@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
-import {DataGrid} from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 
 
 const bull = (
@@ -41,17 +41,11 @@ export default function GradeBoard({ reRender }) {
     const params = useParams();
 
     const columns = [
-        // { field: 'id', headerName: 'Student_ID', width: 130 },
         { field: 'student_id', headerName: 'Student_ID', width: 130 },
-        { field: 'User().email', headerName: 'Email', width: 200 },
+        { field: 'User', headerName: 'Email', width: 200, renderCell: params => params.value.email },
         { field: 'fullname', headerName: 'Name', width: 120 },
-        { field: 'api', headerName: 'Total Grade', type: 'number', width: 120 }
+        { field: 'gpa', headerName: 'Total Grade', type: 'number', width: 120 }
     ];
-
-    const rows = userList.map((row) => {
-        const { student_id, ...rest } = row;
-        return { id: student_id, ...rest };
-    });
 
     const getUserList = async () => {
         setIsLoading(true);
@@ -88,7 +82,7 @@ export default function GradeBoard({ reRender }) {
 
     return (
         <>
-            <Header val={0} classId={params.id} />
+            <Header val={4} classId={params.id} />
             <Container maxWidth="md">
                 {
                     isLoading ?
@@ -176,7 +170,7 @@ export default function GradeBoard({ reRender }) {
                                                 columns={columns}
                                                 pageSize={5}
                                                 rowsPerPageOptions={[4]}
-                                                checkboxSelection
+                                            // checkboxSelection
                                             />
                                         </div>
                                     </Box>

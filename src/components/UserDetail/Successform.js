@@ -39,7 +39,7 @@ export default function Success() {
   }
 
   const handleGoHome = () => {
-    navigate('/home');
+    navigate('/');
   }
 
   return (

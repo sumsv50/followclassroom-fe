@@ -50,12 +50,16 @@ export default function PrimarySearchAppBar({ val, currentTab, classId }) {
     navigate(`/classes/${classId}/userclass`);
   }
 
-  const navigateToGradeTab =  () => {
+  const navigateToGradeTab = () => {
     navigate(`/classes/${classId}/grade`);
   }
 
   const navigateToInviteTab = () => {
     navigate(`/classes/${classId}/getlink`);
+  }
+
+  const navigateToBoardTab = () => {
+    navigate(`/classes/${classId}/gradeboard`);
   }
 
   const handleLogOut = () => {
@@ -143,7 +147,7 @@ export default function PrimarySearchAppBar({ val, currentTab, classId }) {
             </Typography>
           </Link>
 
-          <Box sx={{ display: 'flex', flexGrow: 5, justifyContent: 'center'}}>
+          <Box sx={{ display: 'flex', flexGrow: 5, justifyContent: 'center' }}>
             <Tabs
               value={val}
               TabIndicatorProps={{
@@ -164,6 +168,9 @@ export default function PrimarySearchAppBar({ val, currentTab, classId }) {
               />
               <Tab onClick={navigateToInviteTab} value={3}
                 label={<span>Invite</span>}
+              />
+              <Tab onClick={navigateToBoardTab} value={4}
+                label={<span>Grade Board</span>}
               />
             </Tabs>
           </Box>

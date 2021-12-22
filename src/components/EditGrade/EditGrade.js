@@ -71,7 +71,7 @@ export default function EditGrade ({reRender}) {
   }
 
   const goBack = async() => {
-    return navigate(`/classes/${params.class_id}`);
+    return navigate(`/classes/${params.class_id}/grade`);
   }
 
   useEffect(() => { getGradeDetail(); }, [reRender]);

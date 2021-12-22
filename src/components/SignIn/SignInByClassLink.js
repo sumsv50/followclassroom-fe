@@ -15,9 +15,9 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import GoogleLogin from 'react-google-login';
 import './SignIn.css';
-import {signByLink} from '../../configs/request';
+import { signByLink } from '../../configs/request';
 import Loading from '../Common/Loading';
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 
 function Copyright() {
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignInByLink() {
-    const params = useParams();
+  const params = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -78,45 +78,45 @@ export default function SignInByLink() {
     try {
       const access_token = response.accessToken;
       setIsLoading(true);
-      const isSuccess = await signByLink('google', {access_token}, params.id);
-      if(isSuccess) {
-        navigate('/classes');
+      const isSuccess = await signByLink('google', { access_token }, params.id);
+      if (isSuccess) {
+        navigate('/');
       } else {
         setErrorMessage('Try again!');
         setIsLoading(false);
       }
-    } catch(err) {
+    } catch (err) {
       console.log(err);
       setErrorMessage('Try again!');
       setIsLoading(false);
     }
   }
 
-  const submitForm = async() => {
+  const submitForm = async () => {
     try {
       const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-      
-      if(!regexEmail.test(email)) {
+
+      if (!regexEmail.test(email)) {
         setErrorMessage('Email not valid!');
         return;
       }
 
-      if(password.length < 6) {
+      if (password.length < 6) {
         setErrorMessage('Password must have at least 6 characters')
         return;
       }
-      
+
       setIsLoading(true);
 
-      const isSuccess = await signByLink('local', {email, password}, params.id);
-      if(isSuccess) {
+      const isSuccess = await signByLink('local', { email, password }, params.id);
+      if (isSuccess) {
         navigate('/classes');
-        
+
       } else {
         setErrorMessage("Incorrect email or password!");
         setIsLoading(false);
       }
-    } catch(err) {
+    } catch (err) {
       console.log(err);
       setErrorMessage('Try again!');
       setIsLoading(false);
@@ -125,9 +125,9 @@ export default function SignInByLink() {
 
 
   return (
-   
+
     <Grid container component="main" className={classes.root}>
-      {isLoading && <Loading/>}
+      {isLoading && <Loading />}
       <CssBaseline />
 
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -196,12 +196,6 @@ export default function SignInByLink() {
               Sign In
             </Button>
 
-            {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-              <Alert onClose={submitForm} severity="success" sx={{ width: '100%' }}>
-                This is a success message!
-              </Alert>
-            </Snackbar> */}
-
             <Grid container
               className="function-footer"
               align="left"
@@ -212,7 +206,7 @@ export default function SignInByLink() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link to= "/sign-up" >
+                <Link to="/sign-up">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

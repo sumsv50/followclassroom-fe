@@ -57,7 +57,7 @@ export default function Checkout() {
   };
 
   const handleGoHome = () => {
-    navigate('/home');
+    navigate('/');
   }
 
   return (
