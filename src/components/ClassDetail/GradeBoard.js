@@ -35,7 +35,7 @@ export default function GradeBoard({ reRender }) {
         ...gradeDetail.map(grade => ({
             field: `GD ${grade.id}`, headerName: grade.name, type: 'number', editable: true,
         })),
-        { field: 'gpa', headerName: 'GDP', type: 'number'}
+        { field: 'gpa', headerName: 'GPA', type: 'number'}
     ];
 
     const getUserList = async () => {
