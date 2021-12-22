@@ -13,6 +13,7 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import { DataGrid } from '@mui/x-data-grid';
+import fileTemplateForGrades from '../../assets/Template-for-grades.xlsx'
 
 
 const bull = (
@@ -164,6 +165,15 @@ export default function GradeBoard({ reRender }) {
                                         </Card>
                                     </Box>
                                     <Box sx={{ gridArea: 'main' }}>
+                                        <CardContent
+                                            style={{ textAlign: 'left' }}
+                                        >
+                                            <Typography variant="h7" component="div" style={{ color: 'black' }}>
+                                                Template for grades for an assignment: 
+                                                <a href={fileTemplateForGrades} download="Template-for-grades.xlsx">Download Here</a>
+                                            </Typography>
+                                            <br />
+                                        </CardContent>
                                         <div style={{ height: 400, width: '100%' }}>
                                             <DataGrid
                                                 rows={userList}
