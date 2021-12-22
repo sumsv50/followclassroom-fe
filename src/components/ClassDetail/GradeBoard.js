@@ -31,7 +31,9 @@ export default function GradeBoard({ reRender }) {
     const columns = [
         { field: 'student_id', headerName: 'StudentID' },
         { field: 'fullname', headerName: 'Name', width: 200 },
-        ...gradeDetail.map(grade => ({ field: grade.name, headerName: grade.name, type: 'number' })),
+        ...gradeDetail.map(grade => ({
+            field: `GD ${grade.id}`, headerName: grade.name, type: 'number', editable: true
+        })),
         { field: 'gpa', headerName: 'GPA', type: 'number' }
     ];
 
