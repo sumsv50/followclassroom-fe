@@ -182,3 +182,23 @@ export async function deleteGrade(class_id, id) {
         return null;
     }
 }
+
+export async function postFile(url = '', data = {}) {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(url, {
+        method: 'POST',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: data
+    });
+    if (!response.ok) {
+        return handleError(response);
+    };
+    return await response.json();
+}
