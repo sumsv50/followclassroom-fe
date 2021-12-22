@@ -5,16 +5,12 @@ import Box from '@mui/material/Box';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
 import { DataGrid } from '@mui/x-data-grid';
 import CircularIndeterminate from '../Common/Progress'
 import { useParams, useNavigate } from 'react-router-dom';
-import { getData, getGrade, postFile } from '../../configs/request';
+import { getData, getGrade, postFile, postData } from '../../configs/request';
 import fileTemplateForGrades from '../../assets/Template-for-grades.xlsx'
 import fileTemplateForStudentList from '../../assets/Template-for-student-list.xlsx'
-import axios from 'axios';
 
 export default function GradeBoard({ reRender }) {
 
@@ -37,16 +33,14 @@ export default function GradeBoard({ reRender }) {
         // { field: 'User', headerName: 'Email', width: 200, renderCell: params => params.value.email },
         { field: 'fullname', headerName: 'Name', width: 200 },
         ...gradeDetail.map(grade => ({ field: grade.name, headerName: grade.name, type: 'number' })),
-        { field: 'gpa', headerName: 'GDP', type: 'number' }
+        { field: 'gpa', headerName: 'GPA', type: 'number' }
     ];
 
     const getUserList = async () => {
         setIsLoading(true);
         const data = await getData(`${process.env.REACT_APP_BASE_URL}/gradeboard/${params.id}`);
-        console.log(data);
         setIsLoading(false);
         setUserList(Array.isArray(data) ? data : []);
-        console.log("user list", data);
     }
 
     const getGradeDetail = async (classId, gradeIdList) => {
@@ -155,13 +149,21 @@ export default function GradeBoard({ reRender }) {
                                     </Typography>
                                     <br />
                                 </CardContent>
-                                <div style={{ height: 400, width: '100%' }}>
+                                <div style={{ height: 500, width: '100%' }}>
                                     <DataGrid
                                         rows={userList}
                                         columns={columns}
-                                        pageSize={5}
+                                        pageSize={30}
                                         rowsPerPageOptions={[4]}
-                                    // checkboxSelection
+                                        onCellEditCommit={newSelection => {
+                                            const studentId = userList.find(user => user.id == newSelection.id).student_id
+                                            const gradeId = newSelection?.field?.split(' ')[1];
+                                            const score = newSelection?.value;
+                                            if (!studentId || !gradeId || !score) {
+                                                return;
+                                            }
+                                            postData(`${process.env.REACT_APP_BASE_URL}/scores/${gradeId}`, { studentId, score });
+                                        }}
                                     />
                                 </div>
                             </Box>
@@ -171,3 +173,4 @@ export default function GradeBoard({ reRender }) {
         </>
     );
 }
+
