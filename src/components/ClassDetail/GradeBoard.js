@@ -34,9 +34,6 @@ export default function GradeBoard({ reRender }) {
         { field: 'fullname', headerName: 'Name', width: 200},
         ...gradeDetail.map(grade => ({
             field: `GD ${grade.id}`, headerName: grade.name, type: 'number', editable: true,
-            renderHeader: (params) => {
-                return <button>Click</button>;
-              }
         })),
         { field: 'gpa', headerName: 'GPA', type: 'number'}
     ];
