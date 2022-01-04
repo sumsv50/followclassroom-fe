@@ -9,8 +9,21 @@ import { DataGrid } from '@mui/x-data-grid';
 import CircularIndeterminate from '../Common/Progress'
 import { useParams, useNavigate } from 'react-router-dom';
 import { getData, getGrade, postFile, postData } from '../../configs/request';
-import fileTemplateForGrades from '../../assets/Template-for-grades.xlsx'
-import fileTemplateForStudentList from '../../assets/Template-for-student-list.xlsx'
+import { CustomColumnMenuComponent } from '../Common/ColumnMenuTable';
+import DialogConfirmImport from '../Common/DialogConfirmImport';
+import CircularProgress from '@mui/material/CircularProgress';
+import fileTemplateForGrades from '../../assets/Template-for-grades.xlsx';
+import fileTemplateForStudentList from '../../assets/Template-for-student-list.xlsx';
+
+function calculatorGPA(student, grades) {
+    let totalGradeBaseWeight = 0;
+    let totalWeight = 0;
+    for(const grade of grades) {
+        totalGradeBaseWeight += (student.row[grade.id] ?? 0) * grade.weight;
+        totalWeight +=grade.weight;
+    }
+    return totalGradeBaseWeight/totalWeight;
+}
 
 export default function GradeBoard({ reRender }) {
 
@@ -20,24 +33,98 @@ export default function GradeBoard({ reRender }) {
         border: 1,
     };
     const [isLoading, setIsLoading] = React.useState(true);
-    const [gradeOrder, setGradeOrder] = React.useState([]);
     const [userList, setUserList] = React.useState([]);
-    const navigate = useNavigate();
-
-    const [info, setInfor] = React.useState('');
+    const [info, setInfo] = React.useState('');
     const [gradeDetail, setGradeDetail] = React.useState([]);
     const params = useParams();
+    const inputRef = React.useRef(null);
+    const currentGradeId = React.useRef();
+    const currentGradeName = React.useRef();
+    const currentFileImport = React.useRef();
+    const [isOpenDialogConfirmImport, setIsOpenDialogConfirmImport] = React.useState(false);
+
+
+    function handleImport(gradeId, gradeName) {
+        console.log(gradeDetail);
+        inputRef.current.click();
+        currentGradeId.current = gradeId;
+        currentGradeName.current = gradeName;
+
+    }
+
+    function handleUploadFileImportScores(gradeId, file) {
+        return async () => {
+            const fd = new FormData();
+            fd.append('file', file, file.name);
+            for (const user of userList) {
+                user.isLoading = {};
+                user.isLoading[`${gradeId}`] = true
+            };
+            setUserList(prevUserList => {
+                const newUserList = prevUserList.slice();
+                for (const user of newUserList) {
+                    user.isLoading = {};
+                    user.isLoading[`${gradeId}`] = true;
+                    user.isLoading["gpa"] = true;
+                };
+                return newUserList;
+            });
+            const res = await postFile(`scores/${gradeId}/import-scores`, fd);
+
+            if (res?.isSuccess) {
+                setUserList(prevUserList => {
+                    const newUserList = prevUserList.slice();
+                    for (const user of newUserList) {
+                        const score = res.data[user.student_id];
+                        if (score != undefined) {
+                            user[`${gradeId}`] = score;
+                        }
+                        delete user["isLoading"];
+                    };
+                    return newUserList;
+                })
+                return;
+            }
+            setUserList(prevUserList => {
+                const newUserList = prevUserList.slice();
+                for (const user of newUserList) {
+                    delete user["isLoading"];
+                };
+                return newUserList;
+            })
+        }
+    }
 
     const columns = [
-        { field: 'student_id', headerName: 'StudentID' },
-        { field: 'fullname', headerName: 'Name', width: 200 },
-        ...gradeDetail.map(grade => ({ field: grade.name, headerName: grade.name, type: 'number' })),
-        { field: 'gpa', headerName: 'GPA', type: 'number' }
+        { field: 'student_id', headerName: 'StudentID', flex: 1, headerAlign: 'center' },
+        { field: 'fullname', headerName: 'Name', width: 200, flex: 1, headerAlign: 'center' },
+        ...gradeDetail.map(grade => ({
+            field: `${grade.id}`, headerName: `${grade.name} (${grade.weight})`, type: 'number',
+            editable: true, hideSortIcons: true, flex: 1, headerAlign: 'center', align: 'center',
+            renderCell: (cellValues) => {
+                if (cellValues.row.isLoading?.[cellValues.field]) {
+                    return <CircularProgress />
+                }
+                return cellValues.value
+            },
+            handleImport
+        })),
+        {
+            field: 'gpa', headerName: 'GPA', type: 'number', flex: 1, headerAlign: 'center',
+            align: 'center',
+            valueGetter: (params) => calculatorGPA(params, gradeDetail),
+            renderCell: (cellValues) => {
+                if (cellValues.row.isLoading?.["gpa"]) {
+                    return <CircularProgress />
+                }
+                return cellValues.value
+            },
+        }
     ];
 
     const getUserList = async () => {
         setIsLoading(true);
-        const data = await getData(`${process.env.REACT_APP_BASE_URL}/gradeboard/${params.id}`);
+        const data = await getData(`gradeboard/${params.id}`);
         setIsLoading(false);
         setUserList(Array.isArray(data) ? data : []);
     }
@@ -56,10 +143,9 @@ export default function GradeBoard({ reRender }) {
     }
     const getInformation = async () => {
         setIsLoading(true);
-        const data = await getData(`${process.env.REACT_APP_BASE_URL}/classes/${params.id}`);
+        const data = await getData(`classes/${params.id}`);
         setIsLoading(false);
-        setInfor(data);
-        setGradeOrder(data?.grade_order);
+        setInfo(data);
         await getGradeDetail(params.id, data.grade_order);
         await getUserList();
     }
@@ -76,7 +162,7 @@ export default function GradeBoard({ reRender }) {
     const fileUploadHandler = async (e) => {
         const fd = new FormData();
         fd.append('file', file, file.name);
-        const res = await postFile(`${process.env.REACT_APP_BASE_URL}/gradeboard/${params.id}/upload-studentlist`, fd);
+        const res = await postFile(`gradeboard/${params.id}/upload-studentlist`, fd);
         if (res?.isSuccess) {
             getInformation();
         }
@@ -85,7 +171,7 @@ export default function GradeBoard({ reRender }) {
     return (
         <>
             <Header val={4} classId={params.id} />
-            <Container maxWidth="md">
+            <Container>
                 {
                     isLoading ?
                         <Box sx={{
@@ -100,6 +186,13 @@ export default function GradeBoard({ reRender }) {
                                 ...commonStyles,
                                 borderRadius: 2, borderColor: "grey.500", display: 'flex', justifyContent: 'space-between'
                             }}>
+                                <DialogConfirmImport isOpen={isOpenDialogConfirmImport}
+                                    handleUpload={handleUploadFileImportScores(currentGradeId.current, currentFileImport.current)}
+                                    handleClose={() => {
+                                        setIsOpenDialogConfirmImport(false);
+                                    }}
+                                    gradeName={currentGradeName.current}
+                                />
                                 <CardContent>
                                     <Typography component="div" variant="h5">
                                         {info?.name}
@@ -143,24 +236,36 @@ export default function GradeBoard({ reRender }) {
                                     <Typography variant="h7" component="div" style={{ color: 'black' }}>
                                         {"Upload Student List: "}
                                         <input type="file" onChange={fileSelectedHandler} />
+                                        <input type="file" ref={inputRef} style={{ display: 'none' }} accept=".csv, .xls, .xlsx"
+                                            onChange={(e) => {
+                                                currentFileImport.current = e.target.files[0];
+                                                e.target.value = null;
+                                                setIsOpenDialogConfirmImport(true);
+                                            }}
+                                        />
                                         <button onClick={fileUploadHandler}>Upload</button>
                                     </Typography>
                                     <br />
                                 </CardContent>
                                 <div style={{ height: 500, width: '100%' }}>
+
                                     <DataGrid
+                                        autoHeight={true}
                                         rows={userList}
                                         columns={columns}
+                                        components={{
+                                            ColumnMenu: CustomColumnMenuComponent,
+                                        }}
                                         pageSize={30}
                                         rowsPerPageOptions={[4]}
                                         onCellEditCommit={newSelection => {
                                             const studentId = userList.find(user => user.id == newSelection.id).student_id
-                                            const gradeId = newSelection?.field?.split(' ')[1];
+                                            const gradeId = newSelection?.field;
                                             const score = newSelection?.value;
-                                            if (!studentId || !gradeId || !score) {
+                                            if (!studentId || !gradeId || score == undefined) {
                                                 return;
                                             }
-                                            postData(`${process.env.REACT_APP_BASE_URL}/scores/${gradeId}`, { studentId, score });
+                                            postData(`scores/${gradeId}`, { studentId, score });
                                         }}
                                     />
                                 </div>
@@ -171,4 +276,9 @@ export default function GradeBoard({ reRender }) {
         </>
     );
 }
+
+
+
+
+
 

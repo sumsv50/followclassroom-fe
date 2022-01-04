@@ -22,7 +22,7 @@ export default function EditGrade({ reRender }) {
   const theme = createTheme();
 
   const getGradeDetail = async () => {
-    const detail = await getData(`${process.env.REACT_APP_BASE_URL}/grades/${params.class_id}/${params.id}`);
+    const detail = await getData(`grades/${params.class_id}/${params.id}`);
 
     setName(detail?.name);
     setWeight(detail?.weight);

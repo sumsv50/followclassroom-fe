@@ -18,7 +18,7 @@ export default function FormDialog({ open, handleClose, toggleRerenderRoomList }
         description,
       }
 
-      const response = await postData(`${process.env.REACT_APP_BASE_URL}/classes`, classItem);
+      const response = await postData(`classes`, classItem);
       if (response?.isSuccess) {
         toggleRerenderRoomList();
       }

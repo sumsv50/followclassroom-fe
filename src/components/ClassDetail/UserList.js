@@ -19,7 +19,7 @@ export default function ResponsiveGrid() {
 
     const getUserList = async () => {
         setIsLoading(true);
-        const data = await getData(`${process.env.REACT_APP_BASE_URL}/userclass/${params.id}`);
+        const data = await getData(`userclass/${params.id}`);
         setIsLoading(false);
         setUserList(Array.isArray(data) ? data : []);
         console.log(data);

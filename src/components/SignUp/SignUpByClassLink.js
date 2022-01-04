@@ -76,7 +76,7 @@ export default function SignUpByLink() {
     }
 
     setIsLoading(true);
-    const response = await postData(`${process.env.REACT_APP_BASE_URL}/classlink/${params.id}/sign-up`, {
+    const response = await postData(`classlink/${params.id}/sign-up`, {
       email,
       password,
       confirm_password: confirmPassword

@@ -4,7 +4,7 @@ import handleError from "./handleError";
 export async function postData(url = '', data = {}) {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(url, {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${url}`, {
         method: 'POST',
         cache: 'no-cache',
         credentials: 'same-origin',
@@ -26,7 +26,7 @@ export async function getData(url = '') {
     try {
         const token = localStorage.getItem("token");
 
-        const response = await fetch(url, {
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${url}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
@@ -45,7 +45,7 @@ export async function getData(url = '') {
 export async function putData(url = '', data = {}) {
     const token = localStorage.getItem("token");
     // Default options are marked with *
-    const response = await fetch(url, {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${url}`, {
         method: 'PUT',
         cache: 'no-cache',
         credentials: 'same-origin',
@@ -66,7 +66,7 @@ export async function putData(url = '', data = {}) {
 export async function deleteData(url = '', data = {}) {
     const token = localStorage.getItem("token");
     // Default options are marked with *
-    const response = await fetch(url, {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${url}`, {
         method: 'DELETE',
         cache: 'no-cache',
         credentials: 'same-origin',
@@ -92,7 +92,7 @@ export async function authentication(type, data) {
             'default': 'sign-in'
         }
         const route = routeList[type] ?? routeList['default'];
-        const response = await postData(`${process.env.REACT_APP_BASE_URL}/api/${route}`, data);
+        const response = await postData(`api/${route}`, data);
         const token = response?.authorization;
 
         if (!response?.isSuccess || !token) {
@@ -114,7 +114,7 @@ export async function signByLink(type, data, id) {
             'default': 'sign-in'
         }
         const route = routeList[type] ?? routeList['default'];
-        const response = await postData(`${process.env.REACT_APP_BASE_URL}/classlink/${id}/${route}`, data);
+        const response = await postData(`classlink/${id}/${route}`, data);
         const token = response?.authorization;
 
         if (!response?.isSuccess || !token) {
@@ -130,7 +130,7 @@ export async function signByLink(type, data, id) {
 
 export async function updateUser(data) {
     try {
-        const response = await postData(`${process.env.REACT_APP_BASE_URL}/api/user-update`, data);
+        const response = await postData(`api/user-update`, data);
         return response?.isSuccess ? response?.isSuccess : false;
     } catch (err) {
         console.log(err);
@@ -140,7 +140,7 @@ export async function updateUser(data) {
 
 export async function inviteByEmail(class_id, email, role) {
     try {
-        const response = await postData(`${process.env.REACT_APP_BASE_URL}/email`, { class_id, email, role });
+        const response = await postData(`email`, { class_id, email, role });
         return response;
     } catch (err) {
         console.log(err);
@@ -149,13 +149,13 @@ export async function inviteByEmail(class_id, email, role) {
 }
 
 export async function getGrade(class_id, id) {
-    const data = await getData(`${process.env.REACT_APP_BASE_URL}/grades/${class_id}/${id}`);
+    const data = await getData(`grades/${class_id}/${id}`);
     return data;
 }
 
 export async function crtGrade(class_id, name, weight) {
     try {
-        const data = await postData(`${process.env.REACT_APP_BASE_URL}/grades/${class_id}`, { name, weight });
+        const data = await postData(`grades/${class_id}`, { name, weight });
         return data;
     } catch (err) {
         console.log(err);
@@ -165,7 +165,7 @@ export async function crtGrade(class_id, name, weight) {
 
 export async function updateGrade(class_id, id, name, weight) {
     try {
-        const data = await putData(`${process.env.REACT_APP_BASE_URL}/grades/${class_id}/${id}`, { name, weight });
+        const data = await putData(`grades/${class_id}/${id}`, { name, weight });
         return data;
     } catch (err) {
         console.log(err);
@@ -175,7 +175,7 @@ export async function updateGrade(class_id, id, name, weight) {
 
 export async function deleteGrade(class_id, id) {
     try {
-        const data = await deleteData(`${process.env.REACT_APP_BASE_URL}/grades/${class_id}/${id}`,);
+        const data = await deleteData(`grades/${class_id}/${id}`,);
         return data;
     } catch (err) {
         console.log(err);
@@ -186,7 +186,7 @@ export async function deleteGrade(class_id, id) {
 export async function postFile(url = '', data = {}) {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(url, {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${url}`, {
         method: 'POST',
         cache: 'no-cache',
         credentials: 'same-origin',

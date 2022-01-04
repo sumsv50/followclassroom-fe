@@ -75,7 +75,7 @@ export default function SignUp() {
     }
 
     setIsLoading(true);
-    const response = await postData(`${process.env.REACT_APP_BASE_URL}/api/sign-up`, {
+    const response = await postData(`api/sign-up`, {
       email,
       password,
       confirm_password: confirmPassword

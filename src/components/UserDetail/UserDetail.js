@@ -12,7 +12,7 @@ export default function DetailForm({reRender}) {
   const [userDetail, setUserDetail] = useState();
 
   const getuserDetail = async () => {
-    const detail = await getData(`${process.env.REACT_APP_BASE_URL}/api/user-infor`);
+    const detail = await getData(`api/user-infor`);
     if (detail) { setIsLoading(false); }
     setUserDetail((detail) ? detail : null);
   }

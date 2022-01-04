@@ -20,7 +20,7 @@ export default function MediaControlCard() {
 
     const getInformation = async () => {
         setIsLoading(true);
-        const data = await getData(`${process.env.REACT_APP_BASE_URL}/classes/12`);
+        const data = await getData(`classes/12`);
         setIsLoading(false);
         setInfo(data);
         console.log(data);

@@ -13,7 +13,7 @@ export default function ResponsiveGrid({ grade_order, onDragAndDrop }) {
     try {
       console.log(grade_order);
       onDragAndDrop(gradeOrder)
-      const response = await putData(`${process.env.REACT_APP_BASE_URL}/grades/${params.id}`, gradeOrder);
+      const response = await putData(`grades/${params.id}`, gradeOrder);
       if (response?.isSuccess) {
         console.log("success")
       }

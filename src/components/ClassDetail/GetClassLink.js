@@ -50,7 +50,7 @@ export default function ClassLink({ reRender }) {
   const params = useParams();
 
   const getclassDetail = async () => {
-    const detail = await getData(`${process.env.REACT_APP_BASE_URL}/classes/${params.id}`);
+    const detail = await getData(`classes/${params.id}`);
     console.log(params.id);
     if (detail) { setIsLoading(false); }
     setStudentLink(`${process.env.REACT_APP__CALLBACK_URL}/classlink/sign-in/${detail?.student_link}`);

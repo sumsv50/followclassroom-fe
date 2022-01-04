@@ -21,7 +21,7 @@ export default function EditForm({reRender}) {
   const navigate = useNavigate();
 
   const getuserDetail = async () => {
-    const detail = await getData(`${process.env.REACT_APP_BASE_URL}/api/user-infor`);
+    const detail = await getData(`api/user-infor`);
     if (detail) { setIsLoading(false); }
     setUserDetail((detail) ? detail : null);
     setEmail(detail?.authorization.email);

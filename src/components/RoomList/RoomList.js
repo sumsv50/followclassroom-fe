@@ -12,7 +12,7 @@ export default function ResponsiveGrid({ reRender }) {
   // console.log("RoomList re-render");
   const getRoomList = async () => {
     setIsLoading(true);
-    const data = await getData(`${process.env.REACT_APP_BASE_URL}/classes`);
+    const data = await getData(`classes`);
     setIsLoading(false);
     setRoomList(Array.isArray(data) ? data : []);
     // console.log(data);

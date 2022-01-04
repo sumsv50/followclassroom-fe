@@ -50,8 +50,8 @@ export default function ClassDetail({ reRender }) {
     }
     const getInformation = async () => {
         setIsLoading(true);
-        console.log(`${process.env.REACT_APP_BASE_URL}/classes/${params.id}`);
-        const data = await getData(`${process.env.REACT_APP_BASE_URL}/classes/${params.id}`);
+        console.log(`classes/${params.id}`);
+        const data = await getData(`classes/${params.id}`);
         setIsLoading(false);
         setInfor(data);
         setGradeOrder(data.grade_order);
