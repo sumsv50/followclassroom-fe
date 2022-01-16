@@ -14,6 +14,7 @@ import GoogleLogin from 'react-google-login';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { postData, authentication } from '../../configs/request';
 import Loading from '../Common/Loading';
+import { toast } from 'react-toastify';
 
 function Copyright(props) {
   return (
@@ -81,6 +82,7 @@ export default function SignUp() {
       confirm_password: confirmPassword
     })
     if (response?.isSuccess) {
+      toast.success('Create account successfully!');
       navigate('/sign-in');
     } else {
       setErrorMessage(response?.message);

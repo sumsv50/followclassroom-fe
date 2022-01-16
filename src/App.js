@@ -1,4 +1,5 @@
 import './App.css';
+import { ToastContainer } from 'react-toastify';
 import SignUp from './components/SignUp/SignUp';
 import SignIn from './components/SignIn/SignIn';
 import Home from './components/RoomList/Home';
@@ -14,11 +15,23 @@ import EditGrade from './components/EditGrade/EditGrade';
 import GradeTab from './components/ClassDetail/GradeTab';
 import GradeBoard from './components/ClassDetail/GradeBoard';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <Router>
       <div className="App">
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/sign-up" element={<SignUp />} />

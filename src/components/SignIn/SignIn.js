@@ -114,7 +114,6 @@ export default function SignInSide() {
         setUserInfo(user);
         navigate('/');
       } else {
-        setErrorMessage("Incorrect email or password!");
         setIsLoading(false);
       }
     } catch (err) {
