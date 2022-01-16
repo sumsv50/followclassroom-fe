@@ -14,6 +14,8 @@ import Typography from '@mui/material/Typography';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import GoogleLogin from 'react-google-login';
+
+import { useUserInfo } from '../../follHooks';
 import './SignIn.css';
 import { authentication } from '../../configs/request';
 import Loading from '../Common/Loading';
@@ -68,6 +70,7 @@ export default function SignInSide() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const { setUserInfo } = useUserInfo();
 
   const classes = useStyles();
   const navigate = useNavigate();
@@ -76,8 +79,9 @@ export default function SignInSide() {
     try {
       const access_token = response.accessToken;
       setIsLoading(true);
-      const isSuccess = await authentication('google', { access_token });
-      if (isSuccess) {
+      const user = await authentication('google', { access_token });
+      if (user) {
+        setUserInfo(user);
         navigate('/');
       } else {
         setErrorMessage('Try again!');
@@ -105,8 +109,9 @@ export default function SignInSide() {
       }
 
       setIsLoading(true);
-      const isSuccess = await authentication('local', { email, password });
-      if (isSuccess) {
+      const user = await authentication('local', { email, password });
+      if (user) {
+        setUserInfo(user);
         navigate('/');
       } else {
         setErrorMessage("Incorrect email or password!");

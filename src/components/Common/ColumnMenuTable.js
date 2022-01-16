@@ -10,6 +10,7 @@ const StyledGridColumnMenuContainer = styled(GridColumnMenuContainer)();
 
 function CustomColumnMenuComponent(props) {
   const { hideMenu, currentColumn, color, ...other } = props;
+
   if (!isNaN(Number(currentColumn.field))) {
     const handleImport = currentColumn.handleImport;
     const gradeId = currentColumn.field;
@@ -33,11 +34,30 @@ function CustomColumnMenuComponent(props) {
           paddingX: 2,
           paddingY: 1
         }}>
+          Return grade
+        </Box>
+      </StyledGridColumnMenuContainer>
+    );
+  }
+
+  if (currentColumn.field == 'gpa') {
+    return (
+      <StyledGridColumnMenuContainer
+        hideMenu={hideMenu}
+        currentColumn={currentColumn}
+        ownerState={{ color }}
+        {...other}
+      >
+        <Box className='item' onClick={(e) => { console.log(e) }} sx={{
+          paddingX: 2,
+          paddingY: 1
+        }}>
           Return all
         </Box>
       </StyledGridColumnMenuContainer>
     );
   }
+
   return (
     <StyledGridColumnMenuContainer
       hideMenu={hideMenu}

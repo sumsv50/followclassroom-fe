@@ -8,12 +8,13 @@ import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import Avatar from '@mui/material/Avatar';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
+import { useUserInfo } from '../../follHooks';
 import FormDialog from '../RoomList/FormDialog';
 
 export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
@@ -22,6 +23,7 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const { userInfo } = useUserInfo();
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -52,6 +54,7 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
 
   const handleLogOut = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userInfo');
     window.location.assign("/sign-in");
   }
 
@@ -77,11 +80,23 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      <MenuItem style={{ opacity: '100%'}} disabled>
+        {userInfo.email}
+      </MenuItem>
+      <hr
+        style={{
+          display: 'block',
+          color: '#99979d',
+          backgroundColor: '#99979d',
+          height: 1
+        }}
+      />
       <MenuItem onClick={handleUser}>My Profile</MenuItem>
       <MenuItem onClick={handleLogOut}>Log out</MenuItem>
     </Menu>
   );
 
+  console.log(userInfo)
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
@@ -115,7 +130,7 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle />
+          <Avatar src={userInfo.avatar} alt={userInfo.email} />
         </IconButton>
         <p>Profile</p>
       </MenuItem>
@@ -163,7 +178,7 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <Avatar src={userInfo.avatar} alt={userInfo.email} />
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>

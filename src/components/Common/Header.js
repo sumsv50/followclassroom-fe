@@ -7,15 +7,18 @@ import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import Avatar from '@mui/material/Avatar';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useNavigate, Link } from 'react-router-dom';
 
+import { useUserInfo } from '../../follHooks';
+
 export default function PrimarySearchAppBar({ val, currentTab, classId }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const { userInfo } = useUserInfo();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -64,6 +67,7 @@ export default function PrimarySearchAppBar({ val, currentTab, classId }) {
 
   const handleLogOut = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userInfo');
     window.location.assign("/sign-in");
   }
 
@@ -84,6 +88,17 @@ export default function PrimarySearchAppBar({ val, currentTab, classId }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      <MenuItem style={{ opacity: '100%' }} disabled>
+        {userInfo.email}
+      </MenuItem>
+      <hr
+        style={{
+          display: 'block',
+          color: '#99979d',
+          backgroundColor: '#99979d',
+          height: 1
+        }}
+      />
       <MenuItem onClick={handleUser}>My Profile</MenuItem>
       <MenuItem onClick={handleLogOut}>Log out</MenuItem>
     </Menu>
@@ -114,7 +129,7 @@ export default function PrimarySearchAppBar({ val, currentTab, classId }) {
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle />
+          <Avatar src={userInfo.avatar} alt={userInfo.email} />
         </IconButton>
         <p>Profile</p>
       </MenuItem>
@@ -184,7 +199,7 @@ export default function PrimarySearchAppBar({ val, currentTab, classId }) {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <Avatar src={userInfo.avatar} alt={userInfo.email} />
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>

@@ -270,6 +270,7 @@ export default function GradeBoard({ reRender }) {
                     columns={columns}
                     components={{
                       ColumnMenu: CustomColumnMenuComponent,
+                      Toolbar: CustomToolbar,
                     }}
                     pageSize={30}
                     rowsPerPageOptions={[4]}
@@ -281,9 +282,6 @@ export default function GradeBoard({ reRender }) {
                         return;
                       }
                       postData(`scores/${gradeId}`, { studentId, score });
-                    }}
-                    components={{
-                      Toolbar: CustomToolbar,
                     }}
                   />
                 </div>
