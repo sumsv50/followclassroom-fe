@@ -13,6 +13,8 @@ import CreateGrade from './components/EditGrade/CreateGrade';
 import EditGrade from './components/EditGrade/EditGrade';
 import GradeTab from './components/ClassDetail/GradeTab';
 import GradeBoard from './components/ClassDetail/GradeBoard';
+import GradeReview from './components/ClassDetail/GradeReview';
+import DetailGradeReview from './components/ClassDetail/DetailGradeReview';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
           <Route path="/classes/:id/grade" element={<GradeTab />} />
           <Route path="/classes/:id/gradeboard" element={<GradeBoard />} />
           <Route path="/classes/:class_id/:id/edit" element={<EditGrade />} />
+          <Route path="/classes/:id/gradereview" element={<GradeReview />} />
+          <Route path="/classes/:class_id/:id/gradereview" element={<DetailGradeReview />} />
         </Routes>
       </div>
     </Router>

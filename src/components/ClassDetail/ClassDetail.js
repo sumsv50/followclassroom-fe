@@ -54,8 +54,10 @@ export default function ClassDetail({ reRender }) {
         const data = await getData(`classes/${params.id}`);
         setIsLoading(false);
         setInfor(data);
-        setGradeOrder(data.grade_order);
-        await getGradeDetail(params.id, data.grade_order);
+        setGradeOrder(data?.grade_order);
+        if (data?.grade_order) {
+            await getGradeDetail(params.id, data?.grade_order);
+        }
     }
 
 
@@ -128,8 +130,8 @@ export default function ClassDetail({ reRender }) {
                                                 <br />
                                                 {
                                                     gradeDetail.map(grade => {
-                                                        return (<Typography variant="body2" key={grade.id}>
-                                                            {bull}  {grade.name}: {grade.weight}
+                                                        return (<Typography variant="body2" key={grade?.id}>
+                                                            {bull}  {grade?.name}: {grade?.weight}
                                                         </Typography>)
                                                     })
                                                 }
