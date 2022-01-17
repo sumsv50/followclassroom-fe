@@ -18,6 +18,9 @@ export default async function handleError(response) {
           }
         }, 2000)
         break;
+      case 400:
+        resJson = await response.json();
+        toast.error(resJson.message);
       default:
         break;
     }

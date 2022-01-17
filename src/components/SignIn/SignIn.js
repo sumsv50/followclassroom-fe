@@ -198,7 +198,7 @@ export default function SignInSide() {
               align="left"
             >
               <Grid item xs>
-                <Link to="#">
+                <Link to="/account/reset-password">
                   Forgot password?
                 </Link>
               </Grid>

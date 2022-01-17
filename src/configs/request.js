@@ -17,7 +17,7 @@ export async function postData(url = '', data = {}) {
     body: JSON.stringify(data)
   });
   if (!response.ok) {
-    return handleError(response);
+    handleError(response);
   };
   return await response.json();
 }

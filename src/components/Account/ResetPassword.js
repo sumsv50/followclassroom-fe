@@ -11,7 +11,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { toast } from 'react-toastify';
 import Loading from '../Common/Loading';
-import { getData } from '../../configs/request';
+import { getData, postData } from '../../configs/request';
 
 
 
@@ -20,29 +20,49 @@ const theme = createTheme();
 export default function RestPassword() {
   const { token } = useParams();
   const [specificUser, setSpecificUser] = React.useState({});
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [errorMessage, setErrorMessage] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [confirmPassword, setConfirmPassword] = React.useState('');  
   const navigate = useNavigate();
 
   React.useEffect(async () => {
-    const resData = await getData(`api/reset-password/${token}`) ?? { isSuccess: true };
+    setIsLoading(true);
+    const resData = await getData(`api/reset-password/${token}`);
     if (!resData.isSuccess) {
       toast.error(resData.message);
       setTimeout(() => {
         navigate('/sign-in')
       }, 1500)
+      return;
+    }
+    setIsLoading(false);
+    setSpecificUser(resData.user);
+  }, [])
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (password.length < 6) {
+      setErrorMessage('Password must have at least 6 characters')
+      return;
     }
 
-    setSpecificUser(resData.user);
-  })
+    if (password !== confirmPassword) {
+      setErrorMessage('Confirm password not match Password');
+      return;
+    }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    setIsLoading(true);
+    const dataRes = await postData(`api/reset-password/${token}`, { password, confirmPassword });
+    if (!dataRes.isSuccess) {
+      toast.error(dataRes.message);
+      return;
+    }
+
+    toast.success('Update password successfully!');
+    setTimeout(() => {
+      navigate('../sign-in');
+    }, 1000)
   };
 
   return (
@@ -68,9 +88,12 @@ export default function RestPassword() {
               >
                 <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }} src={specificUser?.avatar} />
                 <Typography component="h1" variant="h6">
-                  {specificUser?.name}
+                  {specificUser?.email}
                 </Typography>
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                <Typography className="error-message">
+                  {errorMessage}
+                </Typography>
                   <TextField
                     margin="normal"
                     required
@@ -80,6 +103,13 @@ export default function RestPassword() {
                     type="password"
                     id="password"
                     autoComplete="current-password"
+                    value={password}
+                    onChange={
+                      (event) => {
+                        setErrorMessage('');
+                        setPassword(event.target.value);
+                      }
+                    }
                   />
                   <TextField
                     margin="normal"
@@ -89,7 +119,14 @@ export default function RestPassword() {
                     label="Confirm password"
                     name="confirm-password"
                     autoComplete="confirm-password"
-                    autoFocus
+                    type="password"
+                    value={confirmPassword}
+                    onChange={
+                      (event) => {
+                        setErrorMessage('');
+                        setConfirmPassword(event.target.value);
+                      }
+                    }
                   />
                   <Button
                     type="submit"
