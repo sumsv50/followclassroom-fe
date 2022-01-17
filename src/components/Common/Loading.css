@@ -1,10 +1,14 @@
-.full-loading {
+.my-full-loading {
     width: 100vw;
     height: 100vh;
     position: fixed;
-    z-index: 9999;
+    z-index: 9990;
     background-color: rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.toast-notify {
+  z-index: 9999;
 }

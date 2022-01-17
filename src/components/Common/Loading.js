@@ -3,10 +3,10 @@ import CircularIndeterminate from './Progress'
 import './Loading.css';
 
 export default function Loading() {
-    return (
-        <Box className="full-loading"
-        >
-            <CircularIndeterminate />
-        </Box>
-    )
+  return (
+    <Box className="my-full-loading"
+    >
+      <CircularIndeterminate />
+    </Box>
+  )
 }
