@@ -15,6 +15,9 @@ import EditGrade from './components/EditGrade/EditGrade';
 import GradeTab from './components/ClassDetail/GradeTab';
 import GradeBoard from './components/ClassDetail/GradeBoard';
 import ActiveAccount from './components/Account/ActiveAccount';
+import ResetPassword from './components/Account/ResetPassword';
+import GradeReview from './components/ClassDetail/GradeReview';
+import DetailGradeReview from './components/ClassDetail/DetailGradeReview';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import './components/Common/Loading.css';
@@ -51,6 +54,9 @@ function App() {
           <Route path="/classes/:id/gradeboard" element={<GradeBoard />} />
           <Route path="/classes/:class_id/:id/edit" element={<EditGrade />} />
           <Route path="account/active/:token" element={<ActiveAccount />} />
+          <Route path="account/reset-password/:token" element={<ResetPassword />} />
+          <Route path="/classes/:id/gradereview" element={<GradeReview />} />
+          <Route path="/classes/:class_id/:id/gradereview" element={<DetailGradeReview />} />
         </Routes>
       </div>
     </Router>

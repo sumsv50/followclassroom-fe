@@ -8,9 +8,9 @@ import CircularIndeterminate from '../Common/Progress';
 import { getData } from '../../configs/request';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { updateUser} from '../../configs/request';
+import { updateUser } from '../../configs/request';
 
-export default function EditForm({reRender}) {
+export default function EditForm({ reRender }) {
   const [isLoading, setIsLoading] = useState(true);
   const [userDetail, setUserDetail] = useState();
   const [email, setEmail] = useState('');
@@ -30,43 +30,43 @@ export default function EditForm({reRender}) {
     setFbAccount(detail?.authorization.fb_account);
   }
 
-  const submitForm = async() => {
+  const submitForm = async () => {
     try {
       const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
       console.log(`noi dung: ${email}`);
-      if(!regexEmail.test(email)) {
+      if (!regexEmail.test(email)) {
         setErrorMessage('Email not valid!');
         return;
       }
 
-      if(student_id < 6) {
+      if (student_id < 6) {
         setErrorMessage('Right Student ID must have at least 6 characters')
         return;
       }
 
-      if(!regexEmail.test(gg_account)) {
-        setErrorMessage('Google Account not valid!');
-        return;
-      }
-      
+      // if (!regexEmail.test(gg_account)) {
+      //   setErrorMessage('Google Account not valid!');
+      //   return;
+      // }
+
       setIsLoading(true); //test
-      const isSuccess = await updateUser({email, student_id, gg_account, fb_account})
-      
-      if(isSuccess) {
+      const isSuccess = await updateUser({ email, student_id, gg_account, fb_account })
+
+      if (isSuccess) {
         navigate('/user/success');
       } else {
         setErrorMessage("Incorrect value!");
         setIsLoading(false);
       }
-    } catch(err) {
+    } catch (err) {
       console.log(err);
       setErrorMessage('Try again!');
       setIsLoading(false);
     }
   }
 
-  const goBack = async() => {
+  const goBack = async () => {
     return navigate('/');
   }
 
@@ -84,8 +84,8 @@ export default function EditForm({reRender}) {
       </Typography>
 
       {isLoading ? (
-        <Box sx={{ marginTop: '35vh'}}> 
-          <CircularIndeterminate/>
+        <Box sx={{ marginTop: '35vh' }}>
+          <CircularIndeterminate />
         </Box>
       ) : (
         <Grid container spacing={3}>
@@ -109,7 +109,7 @@ export default function EditForm({reRender}) {
               autoFocus
             />
           </Grid>
-    
+
           <Grid item xs={12} sm={6}>
             <TextField
               variant="outlined"
@@ -120,7 +120,7 @@ export default function EditForm({reRender}) {
               label="Student ID"
               name="id"
               autoComplete="id"
-              value = {student_id}
+              value={student_id}
               onChange={
                 (event) => {
                   setErrorMessage('');
@@ -130,18 +130,18 @@ export default function EditForm({reRender}) {
               autoFocus
             />
           </Grid>
-    
+
           <Grid item xs={12} sm={6}>
             <TextField
               variant="outlined"
               margin="normal"
-              required
+              // required
               fullWidth
               id="gg_account"
               label="Google Account"
               name="gg_account"
               autoComplete="gg_account"
-              value = {gg_account}
+              value={gg_account}
               onChange={
                 (event) => {
                   setErrorMessage('');
@@ -151,18 +151,18 @@ export default function EditForm({reRender}) {
               autoFocus
             />
           </Grid>
-    
+
           <Grid item xs={12} sm={6}>
             <TextField
               variant="outlined"
               margin="normal"
-              required
+              // required
               fullWidth
               id="fb_account"
               label="Facebook Account"
               name="fb_account"
               autoComplete="fb_account"
-              value = {fb_account}
+              value={fb_account}
               onChange={
                 (event) => {
                   setErrorMessage('');
@@ -172,29 +172,29 @@ export default function EditForm({reRender}) {
               autoFocus
             />
           </Grid>
-    
+
           <Grid item xs={12} sm={6}>
             <TextField
               id="city"
               label="City"
-              defaultValue= "Ho Chi Minh"
+              defaultValue="Ho Chi Minh"
               InputProps={{
                 readOnly: true,
               }}
             />
           </Grid>
-    
+
           <Grid item xs={12} sm={6}>
             <TextField
-                id="country"
-                label="Country"
-                defaultValue= "Viet Nam"
-                InputProps={{
-                  readOnly: true,
-                }}
+              id="country"
+              label="Country"
+              defaultValue="Viet Nam"
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
-        </Grid>  
+        </Grid>
       )}
 
       <React.Fragment>

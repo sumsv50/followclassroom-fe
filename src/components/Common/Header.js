@@ -65,6 +65,10 @@ export default function PrimarySearchAppBar({ val, currentTab, classId }) {
     navigate(`/classes/${classId}/gradeboard`);
   }
 
+  const navigateToGradeReviewTab = () => {
+    navigate(`/classes/${classId}/gradereview`);
+  }
+
   const handleLogOut = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userInfo');
@@ -185,6 +189,9 @@ export default function PrimarySearchAppBar({ val, currentTab, classId }) {
               />
               <Tab onClick={navigateToBoardTab} value={4}
                 label={<span>Grade Board</span>}
+              />
+              <Tab onClick={navigateToGradeReviewTab} value={5}
+                label={<span>Grade Review</span>}
               />
             </Tabs>
           </Box>

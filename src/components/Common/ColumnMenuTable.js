@@ -22,7 +22,7 @@ function CustomColumnMenuComponent(props) {
         ownerState={{ color }}
         {...other}
       >
-        <Box className='item' onClick={() => {handleImport(gradeId, gradeName) }}
+        <Box className='item' onClick={() => { handleImport(gradeId, gradeName) }}
           sx={{
             paddingX: 2,
             paddingY: 1
@@ -70,4 +70,42 @@ function CustomColumnMenuComponent(props) {
 
 }
 
-export { CustomColumnMenuComponent };
+function CustomStudentColumnMenuComponent(props) {
+  const { hideMenu, currentColumn, color, ...other } = props;
+  if (!isNaN(Number(currentColumn.field))) {
+
+    const handleRequestReview = currentColumn.handleRequestReview;
+    const gradeId = currentColumn.field;
+    const gradeName = currentColumn.headerName;
+
+    return (
+      <StyledGridColumnMenuContainer
+        hideMenu={hideMenu}
+        currentColumn={currentColumn}
+        ownerState={{ color }}
+        {...other}
+      >
+        <Box className='item' onClick={() => { handleRequestReview(gradeId) }}
+          sx={{
+            paddingX: 2,
+            paddingY: 1
+          }}
+        >
+          Request Review
+        </Box>
+      </StyledGridColumnMenuContainer>
+    );
+  }
+  return (
+    <StyledGridColumnMenuContainer
+      hideMenu={hideMenu}
+      currentColumn={currentColumn}
+      ownerState={{ color }}
+      {...other}
+    >
+    </StyledGridColumnMenuContainer>
+  );
+
+}
+
+export { CustomColumnMenuComponent, CustomStudentColumnMenuComponent };
