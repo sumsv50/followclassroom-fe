@@ -73,7 +73,6 @@ export default function GradeBoard({ reRender }) {
         setOpenRequestReview(false);
     }
 
-
     function handleImport(gradeId, gradeName) {
         console.log(gradeDetail);
         inputRef.current.click();
@@ -124,7 +123,6 @@ export default function GradeBoard({ reRender }) {
             })
         }
     }
-
 
     const columns = [
         { field: 'student_id', headerName: 'StudentID', flex: 1, headerAlign: 'center', align: 'center' },
@@ -200,22 +198,6 @@ export default function GradeBoard({ reRender }) {
         });
     }
 
-    const [file, setFile] = React.useState(null);
-
-    const fileSelectedHandler = (e) => {
-        setFile(e.target.files[0]);
-
-    }
-
-    const fileUploadHandler = async (e) => {
-        const fd = new FormData();
-        fd.append('file', file, file.name);
-        const res = await postFile(`gradeboard/${params.id}/upload-studentlist`, fd);
-        if (res?.isSuccess) {
-            getInformation();
-        }
-    }
-
     const getInformation = async () => {
         setIsLoading(true);
         const data = await getData(`classes/${params.id}`);
@@ -243,14 +225,10 @@ export default function GradeBoard({ reRender }) {
     const getUserDetail = async () => {
         if (userId) {
             const userDetail = await getData(`userclass/${params.id}/${userId}`);
-            console.log("user", userDetail);
-            console.log(`userclass/${params.id}/${userId}`)
             setUserDetail(userDetail);
             setUserRole(userDetail[0].role)
         }
     }
-    console.log(userId);
-    console.log(userDetail);
 
     const getFinishGrade = async () => {
         setIsLoading(true);
@@ -263,19 +241,16 @@ export default function GradeBoard({ reRender }) {
     let [userRole, setUserRole] = React.useState(null);
 
     const currentUser = userList.filter(user => user.student_id === studentId)
-    console.log(currentUser);
     React.useEffect(() => {
         getInformation();
         getUserId();
         getFinishGrade();
     }, [reRender]);
-    console.log(finishGrade);
-    console.log(userList)
+
 
     React.useEffect(() => {
         getUserDetail();
     }, [userId])
-    console.log(userRole)
 
 
     return (
@@ -334,6 +309,13 @@ export default function GradeBoard({ reRender }) {
                                             },
                                         }}
                                     >
+                                        <input type="file" ref={inputRef} style={{ display: 'none' }} accept=".csv, .xls, .xlsx"
+                                            onChange={(e) => {
+                                                currentFileImport.current = e.target.files[0];
+                                                e.target.value = null;
+                                                setIsOpenDialogConfirmImport(true);
+                                            }}
+                                        />
                                         <CardContent
                                             style={{ textAlign: 'left' }}
                                         >
