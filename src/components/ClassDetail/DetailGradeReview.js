@@ -35,14 +35,14 @@ export default function ClassDetail({ reRender }) {
 
     const getInformation = async () => {
         setIsLoading(true);
-        const data = await getData(`review/${params.class_id}`);
-        const currentReview = data.find(r => r.id === +params.id);
+        const data = await getData(`review/${params.id}`);
+        const currentReview = data.find(r => r.id === +params.review_id);
         setReview(currentReview);
         setIsLoading(false);
     }
 
     const getComments = async () => {
-        const commentList = await getData(`comment/${params.id}`);
+        const commentList = await getData(`comment/${params.review_id}`);
         setComments(commentList);
     }
 
@@ -60,7 +60,7 @@ export default function ClassDetail({ reRender }) {
                     content: comment
                 }
 
-                const response = await postData(`comment/${params.id}`, data);
+                const response = await postData(`comment/${params.review_id}`, data);
                 if (response?.isSuccess) {
                     const tmpComments = comments.slice();
                     setComments([...tmpComments, response.result.content]);
@@ -77,7 +77,7 @@ export default function ClassDetail({ reRender }) {
 
     return (
         <>
-            <Header val={5} classId={params.class_id} />
+            <Header val={5} classId={params.id} />
             <Container maxWidth="md">
                 {
                     isLoading ?

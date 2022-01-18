@@ -58,7 +58,7 @@ function App() {
           <Route path="account/reset-password/:token" element={<ResetPassword />} />
           <Route path="account/reset-password" element={<EnterEmail />} />
           <Route path="/classes/:id/gradereview" element={<GradeReview />} />
-          <Route path="/classes/:class_id/:id/gradereview" element={<DetailGradeReview />} />
+          <Route path="/classes/:id/:review_id/gradereview" element={<DetailGradeReview />} />
         </Routes>
       </div>
     </Router>
