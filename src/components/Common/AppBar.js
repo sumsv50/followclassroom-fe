@@ -14,11 +14,18 @@ import Avatar from '@mui/material/Avatar';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useUserInfo } from '../../follHooks';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import Popover from '@mui/material/Popover';
 import { CreateClassFormDialog, JoinClassFormDialog } from '../RoomList/FormDialog';
+import { getData } from '../../configs/request';
+import AlignItemsList from './NotificationList';
+
 
 export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorClassEl, setAnchorClassEl] = React.useState(null);
+  const [anchorEl2, setAnchorEl2] = React.useState(null);
+  const [notifyList, setNotifyList] = React.useState([]);
 
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -27,6 +34,13 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const { userInfo } = useUserInfo();
 
+  const handleClickNotify = (event) => {
+    setAnchorEl2(event.currentTarget);
+  };
+
+  const handleCloseNotify = () => {
+    setAnchorEl2(null);
+  };
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -82,6 +96,18 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
   const handleUser = () => {
     navigate('/user');
   }
+
+  const getNotify = async () => {
+    const notify = await getData('noti');
+    if (!Array.isArray(notify)) {
+      return;
+    }
+    setNotifyList(notify);
+  }
+
+  React.useEffect(() => {
+    getNotify();
+  }, [])
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -238,6 +264,30 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
             >
               <AddCircleIcon />
             </IconButton>
+            <MenuItem>
+              <IconButton
+                size="large"
+                aria-label="show 17 new notifications"
+                color="inherit"
+                onClick={handleClickNotify}
+              >
+                <Badge badgeContent={0} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            </MenuItem>
+            <Popover
+              id={anchorEl2 ? 'simple-popover' : undefined}
+              open={!!anchorEl2}
+              anchorEl={anchorEl2}
+              onClose={handleCloseNotify}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+            >
+              <AlignItemsList notifyList={notifyList} />
+            </Popover>
             <IconButton
               size="large"
               edge="end"
