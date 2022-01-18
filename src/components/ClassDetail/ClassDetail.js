@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import CircularIndeterminate from '../Common/Progress'
 import { useParams, useNavigate } from 'react-router-dom';
 import { getData, getGrade } from '../../configs/request';
+import { useUserInfo } from '../../follHooks';
 
 const bull = (
     <Box
@@ -22,6 +23,18 @@ const bull = (
 );
 
 export default function ClassDetail({ reRender }) {
+    const { userInfo } = useUserInfo();
+    const userId = userInfo.id;
+    let [userRole, setUserRole] = React.useState(null);
+
+    const getUserDetail = async () => {
+        const userDetail = await getData(`userclass/${params.id}/${userId}`);
+        setUserRole(userDetail[0].role)
+    }
+
+    React.useEffect(() => {
+        getUserDetail();
+    }, [])
 
     const commonStyles = {
         bgcolor: 'background.paper',
@@ -50,7 +63,6 @@ export default function ClassDetail({ reRender }) {
     }
     const getInformation = async () => {
         setIsLoading(true);
-        console.log(`classes/${params.id}`);
         const data = await getData(`classes/${params.id}`);
         setIsLoading(false);
         setInfor(data);
@@ -59,7 +71,6 @@ export default function ClassDetail({ reRender }) {
             await getGradeDetail(params.id, data?.grade_order);
         }
     }
-
 
     React.useEffect(() => { getInformation(); }, [reRender]);
 
@@ -79,8 +90,11 @@ export default function ClassDetail({ reRender }) {
                         <div>
                             <Box sx={{
                                 ...commonStyles,
-                                borderRadius: 2, borderColor: "grey.500", display: 'flex', justifyContent: 'space-between'
-                            }}>
+                                borderRadius: 2, borderColor: "grey.300", display: 'flex', justifyContent: 'space-between',
+
+                            }}
+                                style={{ backgroundImage: `url(${'res.cloudinary.com/dzhnjuvzt/image/upload/v1637768355/class_ayj0mh.jpg'})` }}
+                            >
                                 <CardContent>
                                     <Typography component="div" variant="h5">
                                         {info?.name}
@@ -99,6 +113,8 @@ export default function ClassDetail({ reRender }) {
                                     alt="Class_cover"
                                 />
                             </Box>
+
+
                             <Box
                                 sx={{
                                     width: '100%',
@@ -119,8 +135,33 @@ export default function ClassDetail({ reRender }) {
                                         gridTemplateAreas: `"sidebar main main main main"`,
                                     }}
                                 >
-                                    <Box sx={{ gridArea: 'sidebar' }}>
-                                        <Card sx={{ minWidth: 100 }}>
+                                    <Box sx={{
+                                        gridArea: 'sidebar'
+                                    }}>
+
+                                        {
+                                            userRole === 'teacher' ? (
+                                                <Card sx={{
+                                                    mt: 2, ...commonStyles,
+                                                    borderRadius: 2, borderColor: "grey.300"
+                                                }}>
+                                                    <CardContent
+                                                        style={{ textAlign: 'left' }}
+                                                    >
+                                                        <Typography variant="h7" component="div">
+                                                            <b>Class Code: </b>
+                                                        </Typography>
+                                                        {info.code}
+                                                    </CardContent>
+                                                </Card>
+                                            ) : (<></>)
+                                        }
+
+                                        <Card sx={{
+                                            minWidth: 100,
+                                            ...commonStyles,
+                                            borderRadius: 2, borderColor: "grey.300"
+                                        }}>
                                             <CardContent
                                                 style={{ textAlign: 'left' }}
                                             >
@@ -129,22 +170,22 @@ export default function ClassDetail({ reRender }) {
                                                 </Typography>
                                                 <br />
                                                 {
-                                                    gradeDetail.map(grade => {
-                                                        return (<Typography variant="body2" key={grade?.id}>
-                                                            {bull}  {grade?.name}: {grade?.weight}
-                                                        </Typography>)
-                                                    })
+                                                    gradeDetail.lengh > 0 ?
+                                                        (gradeDetail.map(grade => {
+                                                            return (<Typography variant="body2" key={grade?.id}>
+                                                                {bull}  {grade?.name}: {grade?.weight}
+                                                            </Typography>)
+                                                        })) : (<i>Empty</i>)
                                                 }
-
-                                                <br />
                                             </CardContent>
 
-                                            <CardActions>
+                                            {/* <CardActions>
                                                 <Button size="small" onClick={() => { navigate(`/classes/${params.id}/grade`); }}>
                                                     Edit
                                                 </Button>
-                                            </CardActions>
+                                            </CardActions> */}
                                         </Card>
+
                                     </Box>
                                     <Box sx={{ gridArea: 'main', bgcolor: 'secondary.main' }}>Content</Box>
                                 </Box>

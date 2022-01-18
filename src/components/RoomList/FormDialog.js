@@ -5,9 +5,10 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import { toast } from 'react-toastify';
 import { postData } from '../../configs/request';
 
-export default function FormDialog({ open, handleClose, toggleRerenderRoomList }) {
+export function CreateClassFormDialog({ open, handleClose, toggleRerenderRoomList }) {
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
 
@@ -20,7 +21,11 @@ export default function FormDialog({ open, handleClose, toggleRerenderRoomList }
 
       const response = await postData(`classes`, classItem);
       if (response?.isSuccess) {
+        toast.success('Join Class successfully!');
         toggleRerenderRoomList();
+      }
+      else {
+        toast.error("Class Code invalid");
       }
     } catch (err) {
       console.error(err);
@@ -30,7 +35,7 @@ export default function FormDialog({ open, handleClose, toggleRerenderRoomList }
   return (
     <div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Tạo lớp học</DialogTitle>
+        <DialogTitle>Create Class</DialogTitle>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -42,7 +47,7 @@ export default function FormDialog({ open, handleClose, toggleRerenderRoomList }
               autoFocus
               margin="dense"
               id="name"
-              label="Tên lớp học"
+              label="Class Name"
               required
               fullWidth
               variant="standard"
@@ -53,7 +58,7 @@ export default function FormDialog({ open, handleClose, toggleRerenderRoomList }
             <TextField
               margin="dense"
               id="description"
-              label="Mô tả"
+              label="Description"
               required
               fullWidth
               variant="standard"
@@ -63,11 +68,63 @@ export default function FormDialog({ open, handleClose, toggleRerenderRoomList }
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Huỷ</Button>
-            <Button type="submit" onClick={handleClose}>Tạo</Button>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button type="submit" onClick={handleClose}>Create</Button>
           </DialogActions>
         </form>
       </Dialog>
     </div>
   );
 }
+
+export function JoinClassFormDialog({ open, handleClose, toggleRerenderRoomList }) {
+  const [classCode, setClassCode] = React.useState("");
+
+  const handleJoinClass = async () => {
+    try {
+      const code = {
+        code: classCode
+      }
+      const response = await postData(`classes/code`, code);
+      if (response?.isSuccess) {
+        toggleRerenderRoomList();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  return (
+    <div>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Join Class</DialogTitle>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleJoinClass();
+          }}
+        >
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="code"
+              label="Class Code"
+              required
+              fullWidth
+              variant="standard"
+              onChange={(e) => {
+                setClassCode(e.target.value);
+              }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button type="submit" onClick={handleClose}>Join</Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+    </div>
+  );
+}
+

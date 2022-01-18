@@ -6,22 +6,33 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/material/Avatar';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { useNavigate, Link } from 'react-router-dom';
-
+import { useNavigate, Link, useParams } from 'react-router-dom';
 import { useUserInfo } from '../../follHooks';
+import { getData } from '../../configs/request';
 
 export default function PrimarySearchAppBar({ val, currentTab, classId }) {
+  const params = useParams();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const { userInfo } = useUserInfo();
+  const userId = userInfo.id;
+  let [userRole, setUserRole] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const getUserDetail = async () => {
+    const userDetail = await getData(`userclass/${params.id}/${userId}`);
+    setUserRole(userDetail[0].role)
+  }
+
+  React.useEffect(() => {
+    getUserDetail();
+  }, [])
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -79,30 +90,37 @@ export default function PrimarySearchAppBar({ val, currentTab, classId }) {
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
       id={menuId}
       keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      PaperProps={{
+        style: {
+          left: '50%',
+          transform: 'translateX(-10%) translateY(-8%)',
+        }
+      }}
+      MenuListProps={{
+        style: {
+          padding: 0,
+        },
+      }}
     >
-      <MenuItem style={{ opacity: '100%' }} disabled>
-        {userInfo.email}
-      </MenuItem>
-      <hr
-        style={{
-          display: 'block',
-          color: '#99979d',
-          backgroundColor: '#99979d',
-          height: 1
-        }}
-      />
+      {userInfo.email ? (
+        <>
+          <MenuItem style={{ opacity: '100%' }} disabled>
+            {userInfo.email}
+          </MenuItem>
+          <hr
+            style={{
+              display: 'block',
+              color: '#99979d',
+              backgroundColor: '#99979d',
+              height: 1
+            }}
+          />
+        </>)
+        : <></>}
       <MenuItem onClick={handleUser}>My Profile</MenuItem>
       <MenuItem onClick={handleLogOut}>Log out</MenuItem>
     </Menu>
@@ -144,7 +162,7 @@ export default function PrimarySearchAppBar({ val, currentTab, classId }) {
     <Box sx={{ display: 'flex', flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -152,7 +170,7 @@ export default function PrimarySearchAppBar({ val, currentTab, classId }) {
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
 
           <Link to="/" style={{ textDecoration: 'none' }}>
             <Typography
@@ -181,12 +199,22 @@ export default function PrimarySearchAppBar({ val, currentTab, classId }) {
               <Tab onClick={navigateToMemberTab} value={1}
                 label={<span>Member</span>}
               />
+              {/* 
+              {
+                userRole === 'teacher' ? (
+                  <> */}
+
               <Tab onClick={navigateToGradeTab} value={2}
                 label={<span>Grade</span>}
               />
               <Tab onClick={navigateToInviteTab} value={3}
                 label={<span>Invite</span>}
               />
+              {/* </>
+                ) : (<></>)
+              } */}
+
+
               <Tab onClick={navigateToBoardTab} value={4}
                 label={<span>Grade Board</span>}
               />

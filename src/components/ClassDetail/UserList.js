@@ -53,7 +53,7 @@ export default function ResponsiveGrid() {
                                         <>
                                             <ListItem alignItems="flex-start">
                                                 <ListItemText
-                                                    primary={userclass.User.email}
+                                                    primary={userclass.User.name}
                                                 />
                                             </ListItem>
                                             <Divider component="li" />
@@ -71,7 +71,7 @@ export default function ResponsiveGrid() {
                                         <>
                                             <ListItem alignItems="flex-start">
                                                 <ListItemText
-                                                    primary={userclass.User.email}
+                                                    primary={userclass.User.name}
                                                 />
                                             </ListItem>
                                             <Divider component="li" />

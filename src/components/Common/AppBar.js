@@ -13,20 +13,26 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Avatar from '@mui/material/Avatar';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
 import { useUserInfo } from '../../follHooks';
-import FormDialog from '../RoomList/FormDialog';
+import { CreateClassFormDialog, JoinClassFormDialog } from '../RoomList/FormDialog';
 
 export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorClassEl, setAnchorClassEl] = React.useState(null);
+
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
+  const isClassMenuOpen = Boolean(anchorClassEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const { userInfo } = useUserInfo();
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleClassMenuOpen = (event) => {
+    setAnchorClassEl(event.currentTarget);
   };
 
   const handleMobileMenuClose = () => {
@@ -38,18 +44,32 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
     handleMobileMenuClose();
   };
 
+  const handleClassMenuClose = () => {
+    setAnchorClassEl(null);
+    handleMobileMenuClose();
+  };
+
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
   const [openDialog, setOpenDialog] = useState(false);
+  const [openJoinClassDialog, setOpenJoinClassDialog] = useState(false);
 
-  const handleOpen = () => {
+  const handleOpenCreateClass = () => {
     setOpenDialog(true);
   };
 
-  const handleClose = () => {
+  const handleCloseCreateClass = () => {
     setOpenDialog(false);
+  };
+
+  const handleOpenJoinClass = () => {
+    setOpenJoinClassDialog(true);
+  };
+
+  const handleCloseJoinClass = () => {
+    setOpenJoinClassDialog(false);
   };
 
   const handleLogOut = () => {
@@ -67,36 +87,66 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
       id={menuId}
       keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      disableAutoFocusItem
+      PaperProps={{
+        style: {
+          left: '50%',
+          transform: 'translateX(-10%) translateY(-5%)',
+        }
+      }}
+      MenuListProps={{
+        style: {
+          padding: 0,
+        }
+      }}
     >
-      <MenuItem style={{ opacity: '100%'}} disabled>
-        {userInfo.email}
-      </MenuItem>
-      <hr
-        style={{
-          display: 'block',
-          color: '#99979d',
-          backgroundColor: '#99979d',
-          height: 1
-        }}
-      />
+      {userInfo.email ? (
+        <>
+          <MenuItem style={{ opacity: '100%' }} disabled>
+            {userInfo.name}
+          </MenuItem>
+          <hr
+            style={{
+              display: 'block',
+              color: '#99979d',
+              backgroundColor: '#99979d',
+              height: 1
+            }}
+          />
+        </>)
+        : <></>}
       <MenuItem onClick={handleUser}>My Profile</MenuItem>
       <MenuItem onClick={handleLogOut}>Log out</MenuItem>
-    </Menu>
+    </Menu >
   );
 
-  console.log(userInfo)
+  const renderClassMenu = (
+    <Menu
+      open={isClassMenuOpen}
+      anchorEl={anchorClassEl}
+      onClose={handleClassMenuClose}
+      disableAutoFocusItem
+      PaperProps={{
+        style: {
+          left: '50%',
+          transform: 'translateX(-40%) translateY(-15%)',
+        }
+      }}
+      MenuListProps={{
+        style: {
+          padding: 0,
+        },
+      }}
+    >
+      <MenuItem onClick={handleOpenJoinClass}>Tham gia lớp học</MenuItem>
+      <MenuItem onClick={handleOpenCreateClass}>Tạo lớp học</MenuItem>
+    </Menu >
+  );
+
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
@@ -114,13 +164,21 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={handleOpen}>
+      <MenuItem onClick={handleOpenCreateClass}>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge color="error">
             <AddCircleIcon />
           </Badge>
         </IconButton>
-        <p>Tạo lớp học</p>
+        <p>Create Class</p>
+      </MenuItem>
+      <MenuItem onClick={handleOpenJoinClass}>
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <Badge color="error">
+            <AddCircleIcon />
+          </Badge>
+        </IconButton>
+        <p>Join Class</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -134,16 +192,16 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
-    </Menu>
+    </Menu >
   );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <FormDialog open={openDialog} handleClose={handleClose} toggleRerenderRoomList={toggleRerenderRoomList} />
-
+        <CreateClassFormDialog open={openDialog} handleClose={handleCloseCreateClass} toggleRerenderRoomList={toggleRerenderRoomList} />
+        <JoinClassFormDialog open={openJoinClassDialog} handleClose={handleCloseJoinClass} toggleRerenderRoomList={toggleRerenderRoomList} />
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -151,7 +209,7 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Link to="/" style={{ textDecoration: 'none' }}>
             <Typography
               variant="h6"
@@ -164,10 +222,21 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
           </Link>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={handleOpen}>
-              <Badge color="error">
-                <AddCircleIcon />
-              </Badge>
+            {/* <IconButton size="larg  e" aria-label="show 4 new mails" color="inherit" onClick={handleOpen}> */}
+            {/* <Badge color="error">
+              <AddCircleIcon />
+            </Badge> */}
+            {/* </IconButton> */}
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleClassMenuOpen}
+              color="inherit"
+            >
+              <AddCircleIcon />
             </IconButton>
             <IconButton
               size="large"
@@ -197,6 +266,7 @@ export default function PrimarySearchAppBar({ toggleRerenderRoomList }) {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      {renderClassMenu}
     </Box>
   );
 }
