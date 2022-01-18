@@ -8,10 +8,13 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import { useParams } from 'react-router-dom';
 import Header from '../Common/Header';
+import UserHeader from '../Common/UserHeader';
 import CircularIndeterminate from '../Common/Progress'
 import { getData } from '../../configs/request';
+import { useUserRole } from '../../follHooks/useUserRoleHook'
 
 export default function ResponsiveGrid() {
+    const { userRole } = useUserRole();
     const [userList, setUserList] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
 
@@ -31,7 +34,14 @@ export default function ResponsiveGrid() {
 
     return (
         <>
-            <Header val={1} classId={params.id} />
+            {
+                userRole === 'teacher' ? (
+                    <Header val={1} classId={params.id} />
+                ) : (
+                    <UserHeader val={1} classId={params.id} />
+                )
+
+            }
             <Container maxWidth="md">
                 {
                     isLoading ?
@@ -82,6 +92,7 @@ export default function ResponsiveGrid() {
                         </Box>
                 }
             </Container >
+
         </>
     );
 }

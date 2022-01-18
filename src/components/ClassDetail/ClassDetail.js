@@ -1,4 +1,5 @@
 import Header from '../Common/Header';
+import UserHeader from '../Common/UserHeader';
 import React from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -6,12 +7,11 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
 import CircularIndeterminate from '../Common/Progress'
 import { useParams, useNavigate } from 'react-router-dom';
 import { getData, getGrade } from '../../configs/request';
 import { useUserInfo } from '../../follHooks';
+import { useUserRole } from '../../follHooks/useUserRoleHook'
 
 const bull = (
     <Box
@@ -25,11 +25,11 @@ const bull = (
 export default function ClassDetail({ reRender }) {
     const { userInfo } = useUserInfo();
     const userId = userInfo.id;
-    let [userRole, setUserRole] = React.useState(null);
+    const { userRole, setUserRole } = useUserRole();
 
     const getUserDetail = async () => {
         const userDetail = await getData(`userclass/${params.id}/${userId}`);
-        setUserRole(userDetail[0].role)
+        setUserRole(userDetail[0].role);
     }
 
     React.useEffect(() => {
@@ -76,7 +76,16 @@ export default function ClassDetail({ reRender }) {
 
     return (
         <>
-            <Header val={0} classId={params.id} />
+            {
+                userRole === 'teacher' ? (
+                    <Header val={0} classId={params.id} />
+
+                ) : (
+                    <UserHeader val={0} classId={params.id} />
+                )
+
+            }
+
             <Container maxWidth="md">
                 {
                     isLoading ?
@@ -187,7 +196,8 @@ export default function ClassDetail({ reRender }) {
                                         </Card>
 
                                     </Box>
-                                    <Box sx={{ gridArea: 'main', bgcolor: 'secondary.main' }}>Content</Box>
+                                    <Box sx={{ ...commonStyles, borderRadius: 2, borderColor: "grey.300", gridArea: 'main', color: "black", boxShadow: 2 }}>Content</Box>
+                                    {/* <Box sx={{ gridArea: 'main', bgcolor: 'secondary.main' }}>Content</Box> */}
                                 </Box>
                             </Box>
                         </div>

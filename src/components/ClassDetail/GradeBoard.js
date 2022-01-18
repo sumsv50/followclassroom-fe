@@ -1,4 +1,6 @@
 import Header from '../Common/Header';
+import UserHeader from '../Common/UserHeader';
+
 import React from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -23,6 +25,7 @@ import fileTemplateForGrades from '../../assets/Template-for-grades.xlsx';
 import fileTemplateForStudentList from '../../assets/Template-for-student-list.xlsx';
 import StyledDropzone from './Dropzone'
 import RequestReviewForm from './RequestReviewForm'
+import { useUserRole } from '../../follHooks/useUserRoleHook'
 
 function calculatorGPA(student, grades) {
     let totalGradeBaseWeight = 0;
@@ -211,7 +214,6 @@ export default function GradeBoard({ reRender }) {
 
     const [userId, setUserId] = React.useState(null);
     const [studentId, setStudentId] = React.useState(null);
-    const [userDetail, setUserDetail] = React.useState(null);
 
     const getUserId = async () => {
         const user = await getData(`api/user-infor`);
@@ -222,14 +224,6 @@ export default function GradeBoard({ reRender }) {
         setStudentId((user) ? user?.authorization?.student_id : null);
     }
 
-    const getUserDetail = async () => {
-        if (userId) {
-            const userDetail = await getData(`userclass/${params.id}/${userId}`);
-            setUserDetail(userDetail);
-            setUserRole(userDetail[0].role)
-        }
-    }
-
     const getFinishGrade = async () => {
         setIsLoading(true);
         const data = await getData(`grades/${params.id}`);
@@ -238,7 +232,8 @@ export default function GradeBoard({ reRender }) {
         setFinishGrade(finishGrade);
     }
 
-    let [userRole, setUserRole] = React.useState(null);
+    const { userRole } = useUserRole();
+
 
     const currentUser = userList.filter(user => user.student_id === studentId)
     React.useEffect(() => {
@@ -247,15 +242,17 @@ export default function GradeBoard({ reRender }) {
         getFinishGrade();
     }, [reRender]);
 
-
-    React.useEffect(() => {
-        getUserDetail();
-    }, [userId])
-
-
     return (
         <>
-            <Header val={4} classId={params.id} />
+            {
+                userRole === 'teacher' ? (
+                    <Header val={4} classId={params.id} />
+
+                ) : (
+                    <UserHeader val={4} classId={params.id} />
+                )
+
+            }
             <Container>
                 {
                     isLoading ?

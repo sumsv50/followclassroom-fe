@@ -21,11 +21,12 @@ export function CreateClassFormDialog({ open, handleClose, toggleRerenderRoomLis
 
       const response = await postData(`classes`, classItem);
       if (response?.isSuccess) {
-        toast.success('Join Class successfully!');
+        toast.success('Create Class successfully!');
         toggleRerenderRoomList();
       }
       else {
-        toast.error("Class Code invalid");
+        toast.error("Create Class unsuccessfully");
+
       }
     } catch (err) {
       console.error(err);
@@ -87,7 +88,12 @@ export function JoinClassFormDialog({ open, handleClose, toggleRerenderRoomList 
       }
       const response = await postData(`classes/code`, code);
       if (response?.isSuccess) {
+        toast.success('Join Class successfully!');
         toggleRerenderRoomList();
+      }
+      else {
+        toast.error("Class Code invalid");
+
       }
     } catch (err) {
       console.error(err);

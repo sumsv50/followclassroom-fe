@@ -18,6 +18,9 @@ import CircularIndeterminate from '../Common/Progress';
 import { getData, inviteByEmail } from '../../configs/request';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useUserInfo } from '../../follHooks';
+import UserHeader from '../Common/UserHeader';
+import { useUserRole } from '../../follHooks/useUserRoleHook'
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -37,6 +40,12 @@ function Copyright() {
 }
 
 export default function ClassLink({ reRender }) {
+  const params = useParams();
+
+  const { userInfo } = useUserInfo();
+  const userId = userInfo.id;
+  const { userRole } = useUserRole();
+
   const theme = createTheme();
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -47,7 +56,6 @@ export default function ClassLink({ reRender }) {
   const [open, setOpen] = React.useState(false);
 
   const navigate = useNavigate();
-  const params = useParams();
 
   const getclassDetail = async () => {
     const detail = await getData(`classes/${params.id}`);
@@ -106,7 +114,17 @@ export default function ClassLink({ reRender }) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Header val={3} classId={params.id} />
+
+      {
+        userRole === 'teacher' ? (
+          <Header val={3} classId={params.id} />
+
+        ) : (
+          <UserHeader val={3} classId={params.id} />
+        )
+
+      }
+
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
 
         <Paper variant="outlined" sx={{ my: { xs: 12, md: 6 }, p: { xs: 2, md: 3 } }}>

@@ -1,4 +1,6 @@
 import Header from '../Common/Header';
+import UserHeader from '../Common/UserHeader';
+
 import React from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -12,9 +14,12 @@ import CircularIndeterminate from '../Common/Progress'
 import GradeList from './GradeList'
 import { getData } from '../../configs/request';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useUserInfo } from '../../follHooks';
+import { useUserRole } from '../../follHooks/useUserRoleHook'
 
 export default function ClassDetail({ reRender }) {
-
+    const { userInfo } = useUserInfo();
+    const { userRole } = useUserRole();
     const commonStyles = {
         bgcolor: 'background.paper',
         m: 1,
@@ -47,7 +52,15 @@ export default function ClassDetail({ reRender }) {
 
     return (
         <>
-            <Header val={2} classId={params.id} />
+            {
+                userRole === 'teacher' ? (
+                    <Header val={2} classId={params.id} />
+
+                ) : (
+                    <UserHeader val={2} classId={params.id} />
+                )
+
+            }
             <Container maxWidth="md">
                 {
                     isLoading ?
@@ -81,7 +94,8 @@ export default function ClassDetail({ reRender }) {
                                     alt="Class_cover"
                                 />
                             </Box>
-                            <Box sx={{ display: { xs: 12, md: 'flex' } }}>
+                            {/* <Box sx={{ display: { xs: 12, md: 'flex' } }}> */}
+                            <Box sx={{ display: 'flex', justifyContent: 'center', color: '#1976d2' }}>
                                 <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={handleCreate}>
                                     <Badge color="error">
                                         <AddCircleIcon />

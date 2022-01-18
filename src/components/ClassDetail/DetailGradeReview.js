@@ -1,4 +1,3 @@
-import Header from '../Common/Header';
 import React from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -18,8 +17,14 @@ import { useParams } from 'react-router-dom';
 import dateFormat from "dateformat";
 import { getData, postData } from '../../configs/request';
 import { useUserInfo } from '../../follHooks';
+import { useUserRole } from '../../follHooks/useUserRoleHook'
+import Header from '../Common/Header';
+import UserHeader from '../Common/UserHeader';
 
 export default function ClassDetail({ reRender }) {
+    const { userInfo } = useUserInfo();
+    const { userRole } = useUserRole();
+
     const commonStyles = {
         bgcolor: 'background.paper',
         m: 1,
@@ -30,7 +35,6 @@ export default function ClassDetail({ reRender }) {
     const [comments, setComments] = React.useState([]);
     const [comment, setComment] = React.useState('');
     const params = useParams();
-    const { userInfo } = useUserInfo();
     const [render, setRender] = React.useState(false)
 
     const getInformation = async () => {
@@ -72,12 +76,18 @@ export default function ClassDetail({ reRender }) {
         }
     }
 
-    console.log(comments)
-    console.log(comment)
-
     return (
         <>
-            <Header val={5} classId={params.id} />
+            {
+                userRole === 'teacher' ? (
+                    <Header val={5} classId={params.id} />
+
+                ) : (
+                    <UserHeader val={5} classId={params.id} />
+                )
+
+            }
+
             <Container maxWidth="md">
                 {
                     isLoading ?
@@ -120,7 +130,6 @@ export default function ClassDetail({ reRender }) {
                                                         </Avatar>
                                                     </ListItemAvatar>
                                                     <ListItemText
-                                                        // primary={comment.User.name}
                                                         primary={comment?.User?.name ? comment.User.name : userInfo.name}
                                                         secondary={comment.content}
                                                     />

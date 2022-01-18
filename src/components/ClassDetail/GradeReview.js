@@ -1,4 +1,3 @@
-import Header from '../Common/Header';
 import React from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -12,8 +11,10 @@ import { getData } from '../../configs/request';
 import { useParams, useNavigate } from 'react-router-dom';
 import dateFormat from "dateformat";
 import { Link } from 'react-router-dom';
-
 import { useUserInfo } from '../../follHooks';
+import { useUserRole } from '../../follHooks/useUserRoleHook'
+import Header from '../Common/Header';
+import UserHeader from '../Common/UserHeader';
 
 export default function ClassDetail({ reRender }) {
     const commonStyles = {
@@ -26,12 +27,8 @@ export default function ClassDetail({ reRender }) {
     const params = useParams();
     const { userInfo } = useUserInfo();
     const userId = userInfo.id
-    let [userRole, setUserRole] = React.useState(null);
+    const { userRole } = useUserRole();
 
-    const getUserDetail = async () => {
-        const userDetail = await getData(`userclass/${params.id}/${userId}`);
-        setUserRole(userDetail[0].role)
-    }
 
     const getInformation = async () => {
         setIsLoading(true);
@@ -42,13 +39,18 @@ export default function ClassDetail({ reRender }) {
 
     React.useEffect(() => { getInformation(); }, [reRender]);
 
-    React.useEffect(() => {
-        getUserDetail();
-    }, [userId])
 
     return (
         <>
-            <Header val={5} classId={params.id} />
+            {
+                userRole === 'teacher' ? (
+                    <Header val={5} classId={params.id} />
+
+                ) : (
+                    <UserHeader val={5} classId={params.id} />
+                )
+
+            }
             <Container maxWidth="md">
                 {
                     isLoading ?
@@ -60,7 +62,6 @@ export default function ClassDetail({ reRender }) {
                             <CircularIndeterminate />
                         </Box > :
                         (
-                            // userRole === 'teacher' ?
                             (
                                 <div>
                                     {
@@ -91,10 +92,6 @@ export default function ClassDetail({ reRender }) {
 
                                 </div>
                             )
-                            // :
-                            // (
-                            //     <></>
-                            // )
                         )
 
                 }

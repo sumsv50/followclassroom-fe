@@ -3,12 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { UserInfoProvider } from './contexts'; 
+import { UserInfoProvider } from './contexts';
+import { UserRoleProvider } from './contexts';
 
 ReactDOM.render(
   <React.StrictMode>
     <UserInfoProvider>
-      <App />
+      <UserRoleProvider>
+        <App />
+      </UserRoleProvider>
     </UserInfoProvider>
   </React.StrictMode>,
   document.getElementById('root')
