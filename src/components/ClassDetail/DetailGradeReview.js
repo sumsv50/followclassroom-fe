@@ -39,7 +39,7 @@ export default function ClassDetail({ reRender }) {
 
     const getInformation = async () => {
         setIsLoading(true);
-        const data = await getData(`review/${params.id}`);
+        const data = await getData(`review/view/${params.id}`);
         const currentReview = data.find(r => r.id === +params.review_id);
         setReview(currentReview);
         setIsLoading(false);
