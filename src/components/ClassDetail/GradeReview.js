@@ -33,7 +33,7 @@ export default function ClassDetail({ reRender }) {
     const getInformation = async () => {
         setIsLoading(true);
         const data = await getData(`review/view/${params.id}`);
-        setReviewList(data);
+        setReviewList(data.reverse());
         setIsLoading(false);
     }
 

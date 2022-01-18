@@ -5,6 +5,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { toast } from 'react-toastify';
 import { postData } from '../../configs/request';
 
 
@@ -16,19 +17,21 @@ export default function RequestReviewForm({ open, close, studentId, gradeId }) {
     const handleSendRequest = async () => {
 
         const request = {
-            studentId,
-            gradeId,
-            expectedGrade,
-            explanation,
+            grade_id: gradeId,
+            expected_score: expectedGrade,
+            explain: explanation,
         }
 
         try {
-            // const response = await postData(`classes`, request);
-            // if (response?.isSuccess) {
-            //Toast
-            // }
+            const response = await postData(`review/create`, request);
+            if (response?.isSuccess) {
+                toast.success('Request sucessfully!');
+            }
+            else {
+                toast.error('Request unsucessfully!');
+            }
         } catch (err) {
-            // console.error(err);
+            console.error(err);
         }
         close()
     }

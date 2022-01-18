@@ -15,11 +15,15 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CircularIndeterminate from '../Common/Progress'
 import { useParams } from 'react-router-dom';
 import dateFormat from "dateformat";
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import DoneIcon from '@mui/icons-material/Done';
 import { getData, postData } from '../../configs/request';
 import { useUserInfo } from '../../follHooks';
 import { useUserRole } from '../../follHooks/useUserRoleHook'
 import Header from '../Common/Header';
 import UserHeader from '../Common/UserHeader';
+import { UpdateScoreFormDialog } from '../Common/FormDialog'
 
 export default function ClassDetail({ reRender }) {
     const { userInfo } = useUserInfo();
@@ -76,6 +80,17 @@ export default function ClassDetail({ reRender }) {
         }
     }
 
+    const [openDialog, setOpenDialog] = React.useState(false);
+
+    const handleOpenDialog = () => {
+        setOpenDialog(true);
+    };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    };
+
+
     return (
         <>
             {
@@ -99,8 +114,18 @@ export default function ClassDetail({ reRender }) {
                             <CircularIndeterminate />
                         </Box > :
                         <div>
+                            <UpdateScoreFormDialog open={openDialog} handleClose={handleCloseDialog} classId={params.id} review_id={review.id} gradeId={review.Score.Grade.class_id} studentId={review.Score.student_id} />
                             <Card sx={{ minWidth: 275, ...commonStyles, borderColor: 'grey.300' }}>
                                 <CardContent>
+                                    {userRole === 'teacher' ?
+                                        <Box sx={{ display: 'flex', justifyContent: 'right' }}>
+                                            <Button onClick={handleOpenDialog} variant="outlined" endIcon={<DoneIcon />}>
+                                                Update Score
+                                            </Button>
+                                        </Box> :
+                                        <></>
+                                    }
+
                                     <Typography variant="h5" component="div">
                                         {review.Score.User.student_id} - {review.Score.User.name}
                                     </Typography>
