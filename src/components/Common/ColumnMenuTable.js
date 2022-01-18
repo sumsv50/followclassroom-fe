@@ -5,8 +5,17 @@ import { styled } from '@mui/material/styles';
 import {
   GridColumnMenuContainer,
 } from '@mui/x-data-grid';
+import { postData } from '../../configs/request';
+import { toast } from 'react-toastify'
 
 const StyledGridColumnMenuContainer = styled(GridColumnMenuContainer)();
+
+const createNotify = async (gradeId) => {
+  const dataRes = await postData(`noti/create/gradenoti/${gradeId}`);
+  if (dataRes?.isSuccess) {
+    toast.success("Return grade successfully!");
+  }
+}
 
 function CustomColumnMenuComponent(props) {
   const { hideMenu, currentColumn, color, ...other } = props;
@@ -30,7 +39,7 @@ function CustomColumnMenuComponent(props) {
         >
           Import
         </Box>
-        <Box className='item' onClick={(e) => { console.log(e) }} sx={{
+        <Box className='item' onClick={() => createNotify(gradeId)} sx={{
           paddingX: 2,
           paddingY: 1
         }}>
