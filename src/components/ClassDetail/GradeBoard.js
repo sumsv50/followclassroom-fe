@@ -1,6 +1,5 @@
 import Header from '../Common/Header';
 import UserHeader from '../Common/UserHeader';
-
 import React from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -64,9 +63,14 @@ export default function GradeBoard({ reRender }) {
     const currentFileImport = React.useRef();
     const [isOpenDialogConfirmImport, setIsOpenDialogConfirmImport] = React.useState(false);
     const [finishGrade, setFinishGrade] = React.useState([]);
-
     const [openRequestReview, setOpenRequestReview] = React.useState(false);
     const [reviewGradeId, setReviewGradeId] = React.useState(null)
+    const [render, setRender] = React.useState(false);
+
+    const handleReturn = (render) => {
+        setRender(!render);
+    }
+
     const handleRequestReview = (gradeId) => {
         setOpenRequestReview(true);
         setReviewGradeId(gradeId);
@@ -77,7 +81,6 @@ export default function GradeBoard({ reRender }) {
     }
 
     function handleImport(gradeId, gradeName) {
-        console.log(gradeDetail);
         inputRef.current.click();
         currentGradeId.current = gradeId;
         currentGradeName.current = gradeName;
@@ -139,7 +142,10 @@ export default function GradeBoard({ reRender }) {
                 }
                 return cellValues.value
             },
-            handleImport
+            headerClassName: grade.is_finish ? 'done' : '',
+            handleImport,
+            handleReturn,
+            render
         })),
         {
             field: 'gpa', headerName: 'GPA', type: 'number', flex: 1, headerAlign: 'center',
@@ -212,7 +218,6 @@ export default function GradeBoard({ reRender }) {
         await getUserList();
     }
 
-    const [userId, setUserId] = React.useState(null);
     const [studentId, setStudentId] = React.useState(null);
 
     const getUserId = async () => {
@@ -220,7 +225,6 @@ export default function GradeBoard({ reRender }) {
         if (user) {
             setIsLoading(false);
         }
-        setUserId((user) ? user?.authorization?.id : null);
         setStudentId((user) ? user?.authorization?.student_id : null);
     }
 
@@ -240,7 +244,7 @@ export default function GradeBoard({ reRender }) {
         getInformation();
         getUserId();
         getFinishGrade();
-    }, [reRender]);
+    }, [reRender, render]);
 
     return (
         <>
@@ -266,7 +270,7 @@ export default function GradeBoard({ reRender }) {
                         <div>
                             <Box sx={{
                                 ...commonStyles,
-                                borderRadius: 2, borderColor: "grey.500", display: 'flex', justifyContent: 'space-between'
+                                borderRadius: 2, borderColor: "grey.300", display: 'flex', justifyContent: 'space-between', boxShadow: 2
                             }}>
                                 <DialogConfirmImport isOpen={isOpenDialogConfirmImport}
                                     handleUpload={handleUploadFileImportScores(currentGradeId.current, currentFileImport.current)}
@@ -287,7 +291,7 @@ export default function GradeBoard({ reRender }) {
                                 <CardMedia
                                     component="img"
                                     sx={{
-                                        width: 151
+                                        width: 151, borderRadius: 2
                                     }}
                                     image="https://res.cloudinary.com/dzhnjuvzt/image/upload/v1637768355/class_ayj0mh.jpg"
                                     alt="Class_cover"

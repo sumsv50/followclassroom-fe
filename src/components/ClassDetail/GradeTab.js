@@ -74,7 +74,7 @@ export default function ClassDetail({ reRender }) {
                         <div>
                             <Box sx={{
                                 ...commonStyles,
-                                borderRadius: 2, borderColor: "grey.500", display: 'flex', justifyContent: 'space-between'
+                                borderRadius: 2, borderColor: "grey.300", display: 'flex', justifyContent: 'space-between', boxShadow: 2
                             }}>
                                 <CardContent>
                                     <Typography component="div" variant="h5">
@@ -88,7 +88,7 @@ export default function ClassDetail({ reRender }) {
                                 <CardMedia
                                     component="img"
                                     sx={{
-                                        width: 151
+                                        width: 151, borderRadius: 2
                                     }}
                                     image="https://res.cloudinary.com/dzhnjuvzt/image/upload/v1637768355/class_ayj0mh.jpg"
                                     alt="Class_cover"

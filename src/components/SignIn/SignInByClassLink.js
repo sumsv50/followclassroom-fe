@@ -109,7 +109,7 @@ export default function SignInByLink() {
 
       const isSuccess = await signByLink('local', { email, password }, params.id);
       if (isSuccess) {
-        navigate('/classes');
+        navigate('/');
 
       } else {
         setErrorMessage("Incorrect email or password!");

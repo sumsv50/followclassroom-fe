@@ -114,14 +114,22 @@ export default function ClassDetail({ reRender }) {
                             <CircularIndeterminate />
                         </Box > :
                         <div>
-                            <UpdateScoreFormDialog open={openDialog} handleClose={handleCloseDialog} classId={params.id} review_id={review.id} gradeId={review.Score.Grade.class_id} studentId={review.Score.student_id} />
+                            <UpdateScoreFormDialog open={openDialog} handleClose={handleCloseDialog} classId={params.id} review_id={review.id} gradeId={review.Score.Grade.id} studentId={review.Score.student_id} />
                             <Card sx={{ minWidth: 275, ...commonStyles, borderColor: 'grey.300' }}>
                                 <CardContent>
-                                    {userRole === 'teacher' ?
+                                    {(userRole === 'teacher' && !review.is_review_done) ?
                                         <Box sx={{ display: 'flex', justifyContent: 'right' }}>
                                             <Button onClick={handleOpenDialog} variant="outlined" endIcon={<DoneIcon />}>
                                                 Update Score
                                             </Button>
+                                        </Box> :
+                                        <></>
+                                    }
+
+                                    {review.is_review_done ?
+                                        <Box sx={{ display: 'flex', justifyContent: 'right', color: 'green' }}>
+                                            <DoneIcon />
+                                            Reviewed
                                         </Box> :
                                         <></>
                                     }
@@ -133,7 +141,6 @@ export default function ClassDetail({ reRender }) {
                                         {dateFormat(review.createdAt, "dddd, mmmm dS, yyyy, h:MM:ss TT")}
                                     </Typography>
                                     <Typography variant="h6">{review.Score.Grade.name}</Typography>
-
                                     <Typography variant="body2">Current Grade: {review.Score.score}</Typography>
                                     <Typography variant="body2">Expected Grade: {review.expected_score}</Typography>
                                     <Typography variant="body2">Explaination: {review.student_explanation}</Typography>

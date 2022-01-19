@@ -44,7 +44,7 @@ export default function EditGrade({ reRender }) {
       const isSuccess = await updateGrade(params.class_id, params.id, name, weight);
 
       if (isSuccess) {
-        navigate(`/classes/${params.class_id}`);
+        navigate(`/classes/${params.class_id}/grade`);
       } else {
         setErrorMessage("Incorrect value!");
       }
@@ -60,7 +60,7 @@ export default function EditGrade({ reRender }) {
       const isSuccess = await deleteGrade(params.class_id, params.id);
 
       if (isSuccess) {
-        navigate(`/classes/${params.class_id}`);
+        navigate(`/classes/${params.class_id}/grade`);
       } else {
         setErrorMessage("Fail Delete!");
       }

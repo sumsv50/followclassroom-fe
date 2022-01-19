@@ -45,7 +45,7 @@ export default function SignUpByLink() {
       setIsLoading(true);
       const isSuccess = await signByLink('google', { access_token }, params.id);
       if (isSuccess) {
-        navigate('/classes');
+        navigate('/');
       } else {
         setErrorMessage('Try again!');
         setIsLoading(false);

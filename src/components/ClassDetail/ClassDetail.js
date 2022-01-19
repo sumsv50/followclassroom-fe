@@ -99,7 +99,7 @@ export default function ClassDetail({ reRender }) {
                         <div>
                             <Box sx={{
                                 ...commonStyles,
-                                borderRadius: 2, borderColor: "grey.300", display: 'flex', justifyContent: 'space-between',
+                                borderRadius: 2, borderColor: "grey.300", display: 'flex', justifyContent: 'space-between', boxShadow: 2
 
                             }}
                                 style={{ backgroundImage: `url(${'res.cloudinary.com/dzhnjuvzt/image/upload/v1637768355/class_ayj0mh.jpg'})` }}
@@ -116,7 +116,7 @@ export default function ClassDetail({ reRender }) {
                                 <CardMedia
                                     component="img"
                                     sx={{
-                                        width: 151
+                                        width: 152, borderRadius: 2
                                     }}
                                     image="https://res.cloudinary.com/dzhnjuvzt/image/upload/v1637768355/class_ayj0mh.jpg"
                                     alt="Class_cover"
@@ -152,6 +152,7 @@ export default function ClassDetail({ reRender }) {
                                             userRole === 'teacher' ? (
                                                 <Card sx={{
                                                     mt: 2, ...commonStyles,
+                                                    minWidth: 140,
                                                     borderRadius: 2, borderColor: "grey.300"
                                                 }}>
                                                     <CardContent
@@ -167,7 +168,7 @@ export default function ClassDetail({ reRender }) {
                                         }
 
                                         <Card sx={{
-                                            minWidth: 100,
+                                            minWidth: 140,
                                             ...commonStyles,
                                             borderRadius: 2, borderColor: "grey.300"
                                         }}>
@@ -179,7 +180,7 @@ export default function ClassDetail({ reRender }) {
                                                 </Typography>
                                                 <br />
                                                 {
-                                                    gradeDetail.lengh > 0 ?
+                                                    gradeDetail.length > 0 ?
                                                         (gradeDetail.map(grade => {
                                                             return (<Typography variant="body2" key={grade?.id}>
                                                                 {bull}  {grade?.name}: {grade?.weight}
@@ -187,17 +188,9 @@ export default function ClassDetail({ reRender }) {
                                                         })) : (<i>Empty</i>)
                                                 }
                                             </CardContent>
-
-                                            {/* <CardActions>
-                                                <Button size="small" onClick={() => { navigate(`/classes/${params.id}/grade`); }}>
-                                                    Edit
-                                                </Button>
-                                            </CardActions> */}
                                         </Card>
-
                                     </Box>
                                     <Box sx={{ ...commonStyles, borderRadius: 2, borderColor: "grey.300", gridArea: 'main', color: "black", boxShadow: 2 }}>Content</Box>
-                                    {/* <Box sx={{ gridArea: 'main', bgcolor: 'secondary.main' }}>Content</Box> */}
                                 </Box>
                             </Box>
                         </div>

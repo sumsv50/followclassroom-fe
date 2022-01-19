@@ -10,10 +10,12 @@ import { toast } from 'react-toastify'
 
 const StyledGridColumnMenuContainer = styled(GridColumnMenuContainer)();
 
-const createNotify = async (gradeId) => {
+const createNotify = async (gradeId, handleReturn, render) => {
   const dataRes = await postData(`noti/create/gradenoti/${gradeId}`);
+  await postData(`grades/complete/${gradeId}`);
   if (dataRes?.isSuccess) {
     toast.success("Return grade successfully!");
+    handleReturn(render)
   }
 }
 
@@ -24,6 +26,9 @@ function CustomColumnMenuComponent(props) {
     const handleImport = currentColumn.handleImport;
     const gradeId = currentColumn.field;
     const gradeName = currentColumn.headerName;
+    const handleReturn = currentColumn.handleReturn;
+    const render = currentColumn.render;
+
     return (
       <StyledGridColumnMenuContainer
         hideMenu={hideMenu}
@@ -39,7 +44,7 @@ function CustomColumnMenuComponent(props) {
         >
           Import
         </Box>
-        <Box className='item' onClick={() => createNotify(gradeId)} sx={{
+        <Box className='item' onClick={() => createNotify(gradeId, handleReturn, render)} sx={{
           paddingX: 2,
           paddingY: 1
         }}>

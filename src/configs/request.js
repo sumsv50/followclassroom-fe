@@ -176,7 +176,7 @@ export async function updateGrade(class_id, id, name, weight) {
 
 export async function deleteGrade(class_id, id) {
   try {
-    const data = await deleteData(`grades/${class_id}/${id}`,);
+    const data = await deleteData(`grades/${class_id}/${id}`);
     return data;
   } catch (err) {
     console.log(err);

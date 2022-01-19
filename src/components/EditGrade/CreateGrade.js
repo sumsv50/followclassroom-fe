@@ -39,7 +39,7 @@ export default function CreateGrade() {
       const isSuccess = await crtGrade(params.id, name.trim(), weight);
 
       if (isSuccess) {
-        navigate(`/classes/${params.id}`);
+        navigate(`/classes/${params.id}/grade`);
       } else {
         setErrorMessage("Incorrect value!");
       }
